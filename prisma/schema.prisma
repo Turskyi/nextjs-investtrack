@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model Investment {
+  // Unique identifier for the investment.
+  id                   Int       @id @default(autoincrement())
+  // Unique slug for the investment.
+  slug                 String    @unique
+  // Ticker symbol (e.g., AAPL for Apple).
+  ticker               String
+  // Type of investment (e.g., Aircraft industry, Army, Banks sector).
+  type                 String
+  // Optional: Stock exchange where the stock is traded (e.g., NYSE, NASDAQ).
+  stockExchange        String?
+  // Currency in which the stock is traded (e.g., USD, CAD).
+  currency             String    @default("USD")
+  // Optional: Additional details about the investment.
+  description          String?
+  // Current price of the stock (float to allow decimal values).
+  currentPrice         Float
+  // Name of the company or investment entity.
+  companyName          String
+  // Number of shares purchased.
+  quantity             Int       @default(0)
+  // Optional: Total value of the stock at the time of purchase (purchasePrice * quantity).
+  totalValueOnPurchase Float?
+  // Optional: URL to the company's logo.
+  companyLogoUrl       String?
+  // Tracks whether the stock was purchased or is in a wishlist.
+  isPurchased          Boolean   @default(false)
+  // Optional: Date when the stock was purchased.
+  purchaseDate         DateTime?
+  // Optional: Purchase price of the stock (float for precision).
+  purchasePrice        Float?
+  // Optional: Current total value (currentPrice * quantity).
+  totalCurrentValue    Float?
+  // Optional: Gain or loss in CAD based on purchase and current price.
+  gainOrLossCad        Float?
+  // Optional: Gain or loss in USD based on purchase and current price.
+  gainOrLossUsd        Float?
+  // Timestamp of when the investment was added.
+  createdAt            DateTime  @default(now())
+  // Auto-updates whenever the investment is modified.
+  updatedAt            DateTime  @updatedAt
+
+  // Maps to the "investments" table in the database.
+  @@map("investments")
+}
