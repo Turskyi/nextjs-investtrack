@@ -3,7 +3,7 @@ import { formatMoney, relativeDate } from "@/lib/utils";
 import { Investment } from "@prisma/client";
 import { Banknote, Briefcase, Clock, Globe2, MapPin } from "lucide-react";
 import Image from "next/image";
-import Badge from './Badge';
+import Badge from "./Badge";
 
 interface InvestmentListItemProps {
   investment: Investment;
@@ -54,7 +54,9 @@ export default function InvestmentListItem({
           </p>
           <p className="flex items-center gap-1.5 sm:hidden">
             <Clock size={16} className="shrink-0" />
-            {purchaseDate ? relativeDate(purchaseDate) : 'No purchase date available'}
+            {purchaseDate
+              ? relativeDate(purchaseDate)
+              : "No purchase date available"}
           </p>
         </div>
       </div>
@@ -62,7 +64,7 @@ export default function InvestmentListItem({
         <Badge>{type}</Badge>
         <span className="flex items-center gap-1.5 text-muted-foreground">
           <Clock size={16} />
-          {purchaseDate ? relativeDate(purchaseDate) : 'No purchase date available'}
+          {purchaseDate ? relativeDate(purchaseDate) : "Not yet purchased"}
         </span>
       </div>
     </article>
