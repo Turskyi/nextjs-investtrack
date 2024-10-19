@@ -16,7 +16,7 @@ async function filterInvestments(formData: FormData) {
 
   const values = Object.fromEntries(formData.entries());
 
-  const { q, type, currency, stockExchange } =
+  const { q, type, currency, stockExchange, isPurchased } =
     investmentFilterSchema.parse(values);
 
   const searchParams = new URLSearchParams({
@@ -24,6 +24,9 @@ async function filterInvestments(formData: FormData) {
     ...(type && { type }),
     ...(currency && { currency }),
     ...(stockExchange && { stockExchange }),
+    ...(isPurchased !== undefined && {
+      isPurchased: isPurchased ? "true" : "false",
+    }),
   });
 
   redirect(`/?${searchParams.toString()}`);
@@ -36,9 +39,14 @@ interface InvestmentFilterSidebarProps {
 export default async function InvestmentFilterSidebar({
   defaultValues,
 }: InvestmentFilterSidebarProps) {
+  // Dynamically include isPurchased filter based on user selection
+  const investmentQueryConditions = {
+    ...(defaultValues.isPurchased ? { isPurchased: true } : {}),
+  };
+
   const distinctCurrencies = (await prisma.investment
     .findMany({
-      where: { isPurchased: true },
+      where: investmentQueryConditions,
       select: { currency: true },
       distinct: ["currency"],
     })
@@ -48,7 +56,8 @@ export default async function InvestmentFilterSidebar({
 
   const distinctStockExchanges = (await prisma.investment
     .findMany({
-      where: { isPurchased: true },
+      // Apply the dynamic condition.
+      where: investmentQueryConditions,
       select: { stockExchange: true },
       distinct: ["stockExchange"],
     })
@@ -61,6 +70,7 @@ export default async function InvestmentFilterSidebar({
       <form action={filterInvestments} key={JSON.stringify(defaultValues)}>
         <div className="space-y-4">
           <div className="flex flex-col gap-2">
+            {/* TODO: change name "q" to "query" */}
             <Label htmlFor="q">Search</Label>
             <Input
               id="q"
@@ -113,6 +123,17 @@ export default async function InvestmentFilterSidebar({
                 </option>
               ))}
             </Select>
+          </div>
+          {/* Checkbox for filtering by purchased investments. */}
+          <div className="flex items-center gap-2">
+            <input
+              id="isPurchased"
+              name="isPurchased"
+              type="checkbox"
+              className="scale-125 accent-black"
+              defaultChecked={defaultValues.isPurchased || false}
+            />
+            <Label htmlFor="isPurchased">Purchased investments</Label>
           </div>
           <FormSubmitButton className="w-full">
             Filter investments

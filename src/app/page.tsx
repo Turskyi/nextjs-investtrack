@@ -1,16 +1,9 @@
 import InvestmentFilterSidebar from "@/components/InvestmentFilterSidebar";
-import InvestmentListItem from "@/components/InvestmentListItem";
+import InvestmentResults from "@/components/InvestmentResults";
 import H1 from "@/components/ui/h1";
-import prisma from "@/lib/prisma";
 import { InvestmentFilterValues } from "@/lib/validation";
 
 export default async function Home() {
-  const investments = await prisma.investment.findMany({
-    where: {
-      isPurchased: true,
-    },
-    orderBy: { createdAt: "desc" },
-  });
   const filterValues: InvestmentFilterValues = {};
 
   return (
@@ -23,11 +16,7 @@ export default async function Home() {
       </div>
       <section className="flex flex-col gap-4 md:flex-row">
         <InvestmentFilterSidebar defaultValues={filterValues} />
-        <div className="space-y-4">
-          {investments.map((investment) => (
-            <InvestmentListItem investment={investment} key={investment.id} />
-          ))}
-        </div>
+        <InvestmentResults filterValues={filterValues} page={undefined} />
       </section>
     </main>
   );

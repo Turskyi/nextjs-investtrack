@@ -69,6 +69,7 @@ export const investmentFilterSchema = z.object({
   type: z.string().optional(),
   currency: z.string().optional(),
   stockExchange: z.string().optional(),
+  isPurchased: z.coerce.boolean().optional(),
 });
 
 export type InvestmentFilterValues = z.infer<typeof investmentFilterSchema>;
