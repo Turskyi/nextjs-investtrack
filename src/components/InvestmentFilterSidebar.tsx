@@ -11,6 +11,8 @@ import { Label } from "./ui/label";
 import Select from "./ui/select";
 import FormSubmitButton from "./FormSubmitButton";
 
+// Inspired by the "JobFilterSidebar.tsx" component from the Next.js Job Board project by CodingInFlow.
+// Source: https://github.com/codinginflow/nextjs-job-board/blob/Final-Project/src/components/JobFilterSidebar.tsx
 async function filterInvestments(formData: FormData) {
   "use server";
 
@@ -24,9 +26,7 @@ async function filterInvestments(formData: FormData) {
     ...(type && { type }),
     ...(currency && { currency }),
     ...(stockExchange && { stockExchange }),
-    ...(isPurchased !== undefined && {
-      isPurchased: isPurchased ? "true" : "false",
-    }),
+    ...(isPurchased && { isPurchased: "true" }),
   });
 
   redirect(`/?${searchParams.toString()}`);
@@ -131,7 +131,7 @@ export default async function InvestmentFilterSidebar({
               name="isPurchased"
               type="checkbox"
               className="scale-125 accent-black"
-              defaultChecked={defaultValues.isPurchased || false}
+              defaultChecked={defaultValues.isPurchased}
             />
             <Label htmlFor="isPurchased">Purchased investments</Label>
           </div>

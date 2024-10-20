@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { investmentTypes, stockExchangeTypes } from "./investment-types";
 
+// Inspired by the "validation.ts" implementation from the Next.js Job Board project by CodingInFlow.
+// Source: https://github.com/codinginflow/nextjs-job-board/blob/Final-Project/src/lib/validation.ts
 const requiredString = z.string().min(1, "Required");
 
 // Validation for the company logo (optional, must be an image file, less than 2MB).

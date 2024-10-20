@@ -6,6 +6,8 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import InvestmentListItem from "./InvestmentListItem";
 
+// Inspired by the "JobResults" component from the Next.js Job Board project by CodingInFlow.
+// Source: https://github.com/codinginflow/nextjs-job-board/blob/Final-Project/src/components/JobResults.tsx
 interface InvestmentResultsProps {
   filterValues: InvestmentFilterValues;
   page?: number;
@@ -43,7 +45,7 @@ export default async function InvestmentResults({
       type ? { type } : {},
       currency ? { currency } : {},
       stockExchange ? { stockExchange } : {},
-      isPurchased !== undefined ? { isPurchased } : {},
+      isPurchased ? { isPurchased: true } : {},
     ],
   };
 
@@ -105,7 +107,7 @@ function Pagination({
       ...(type && { type }),
       ...(currency && { currency }),
       ...(stockExchange && { stockExchange }),
-      ...(isPurchased !== undefined && { isPurchased: isPurchased.toString() }),
+      ...(isPurchased && { isPurchased: "true" }),
       page: page.toString(),
     });
 

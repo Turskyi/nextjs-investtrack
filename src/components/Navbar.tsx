@@ -11,6 +11,7 @@ export default function Navbar() {
           <Image src={logo} width={40} height={40} alt="InvestTrack logo" />
           <span className="text-xl font-bold tracking-tight">InvestTrack</span>
         </Link>
+        {/* `asChild` makes component look like Button, but act like Link. */}
         <Button asChild>
           <Link href="/investments/new">Post an investment</Link>
         </Button>
