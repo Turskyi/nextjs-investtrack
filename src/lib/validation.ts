@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { investmentTypes, stockExchangeTypes } from "./investment-types";
+import currencies from "./currency-list";
 
 // Inspired by the "validation.ts" implementation from the Next.js Job Board project by CodingInFlow.
 // Source: https://github.com/codinginflow/nextjs-job-board/blob/Final-Project/src/lib/validation.ts
@@ -13,6 +14,7 @@ const companyLogoSchema = z
     "Must be an image file",
   )
   .refine((file) => {
+    // kb multiply mb multiply 2.
     return !file || file.size < 1024 * 1024 * 2;
   }, "File must be less than 2MB");
 
@@ -22,15 +24,25 @@ const investmentSchema = z
     quantity: z
       .number()
       .int()
-      .min(0, "Quantity must be a positive integer")
+      .min(0, "Quantity must be a positive integer or zero")
+      // Allow this to be optional.
+      .optional(),
+    totalValueOnPurchase: z
+      .number()
+      .positive("Must be a positive number")
       .optional()
+      // Allow for tracking value even if quantity is zero.
       .or(z.literal(0)),
-    totalValueOnPurchase: z.number().positive().optional().or(z.literal(0)),
   })
-  .refine((data) => data.quantity || data.totalValueOnPurchase, {
-    message: "Quantity or Total Value on Purchase is required",
-    path: ["quantity"],
-  });
+  .refine(
+    (data) =>
+      data.quantity !== undefined || data.totalValueOnPurchase !== undefined,
+    {
+      message: "Either Quantity or Total Value on Purchase is required",
+      // Attach error to `quantity` field in case validation fails.
+      path: ["quantity"],
+    },
+  );
 
 const stockExchangeSchema = z
   .object({
@@ -45,6 +57,28 @@ const stockExchangeSchema = z
     message: "Stock exchange type is required if provided",
     path: ["stockExchange"],
   });
+
+// Extract valid currency codes from the currency list
+const acceptedCurrencies = currencies.map(
+  (currency) => currency.AlphabeticCode,
+);
+
+// Currency schema for validation
+const currencySchema = z
+  .object({
+    currency: z
+      .string()
+      .refine((value) => acceptedCurrencies.includes(value), "Invalid currency")
+      // Optional if not required for all cases.
+      .optional(),
+  })
+  .refine(
+    (data) => !data.currency || acceptedCurrencies.includes(data.currency),
+    {
+      message: "Invalid or unsupported currency type",
+      path: ["currency"],
+    },
+  );
 
 export const createInvestmentSchema = z
   .object({
@@ -62,7 +96,8 @@ export const createInvestmentSchema = z
     currentPrice: z.number().positive("Must be a positive number"),
   })
   .and(investmentSchema)
-  .and(stockExchangeSchema);
+  .and(stockExchangeSchema)
+  .and(currencySchema);
 
 export type CreateInvestmentValues = z.infer<typeof createInvestmentSchema>;
 
