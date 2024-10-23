@@ -91,12 +91,16 @@ export const createInvestmentSchema = z
       100,
       "Company name can't exceed 100 characters",
     ),
+    // Company logo is optional and validated.
     companyLogoUrl: companyLogoSchema,
     description: z.string().max(5000).optional(),
     currentPrice: z.number().positive("Must be a positive number"),
   })
+  // Merging with the investment schema for quantity and total value.
   .and(investmentSchema)
+  // Merging with the stock exchange schema.
   .and(stockExchangeSchema)
+  // Merging with the currency schema.
   .and(currencySchema);
 
 export type CreateInvestmentValues = z.infer<typeof createInvestmentSchema>;
