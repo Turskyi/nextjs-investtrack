@@ -2,6 +2,8 @@ import { forwardRef, useMemo, useState } from "react";
 import { Input } from "./ui/input";
 import currencies from "@/lib/currency-list";
 
+// TODO: remove, because never used.
+
 // Inspired by the "LocationInput" component from the Next.js Job Board project by CodingInFlow.
 // Source: https://github.com/codinginflow/nextjs-job-board/blob/Final-Project/src/components/LocationInput.tsx
 interface CurrencyInputProps

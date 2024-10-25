@@ -73,9 +73,12 @@ export default function NewInvestmentForm() {
         <Form {...form}>
           <form
             className="space-y-4"
+            // Disable native validation, because we will use our own
+            // validation, with our own error message, not the browser message.
             noValidate
             onSubmit={handleSubmit(onSubmit)}
           >
+            {/* Ticker. */}
             <FormField
               control={control}
               name="ticker"
@@ -89,7 +92,7 @@ export default function NewInvestmentForm() {
                 </FormItem>
               )}
             />
-
+            {/* Type. */}
             <FormField
               control={control}
               name="type"
@@ -112,7 +115,7 @@ export default function NewInvestmentForm() {
                 </FormItem>
               )}
             />
-
+            {/* Company name. */}
             <FormField
               control={control}
               name="companyName"
@@ -126,20 +129,22 @@ export default function NewInvestmentForm() {
                 </FormItem>
               )}
             />
-
+            {/* Company logo. */}
             <FormField
               control={control}
               name="companyLogoUrl"
-              render={({ field }) => (
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              render={({ field: { value, ...fieldValues } }) => (
                 <FormItem>
                   <FormLabel>Company Logo</FormLabel>
                   <FormControl>
                     <Input
+                      {...fieldValues}
                       type="file"
                       accept="image/*"
                       onChange={(e) => {
                         const file = e.target.files?.[0];
-                        field.onChange(file);
+                        fieldValues.onChange(file);
                       }}
                     />
                   </FormControl>
@@ -147,7 +152,7 @@ export default function NewInvestmentForm() {
                 </FormItem>
               )}
             />
-
+            {/* Stock Exchange. */}
             <FormField
               control={control}
               name="stockExchange"
@@ -159,9 +164,9 @@ export default function NewInvestmentForm() {
                       <option value="" hidden>
                         Select an option
                       </option>
-                      {stockExchangeTypes.map((exchange) => (
-                        <option key={exchange} value={exchange}>
-                          {exchange}
+                      {stockExchangeTypes.map((stockExchange) => (
+                        <option key={stockExchange} value={stockExchange}>
+                          {stockExchange}
                         </option>
                       ))}
                     </Select>
@@ -170,7 +175,7 @@ export default function NewInvestmentForm() {
                 </FormItem>
               )}
             />
-
+            {/* Currency. */}
             <FormField
               control={control}
               name="currency"
@@ -178,20 +183,49 @@ export default function NewInvestmentForm() {
                 <FormItem>
                   <FormLabel>Currency</FormLabel>
                   <FormControl>
-                    <Select {...field} defaultValue="USD">
+                    <Select
+                      {...field}
+                      defaultValue={
+                        currencies.find(
+                          (currency) =>
+                            currency.AlphabeticCode === "USD" &&
+                            currency.Entity ===
+                              "UNITED STATES OF AMERICA (THE)",
+                        )?.AlphabeticCode ?? ""
+                      }
+                    >
                       <option value="" hidden>
                         Select an option
                       </option>
                       {currencies.map((currency) => (
                         <option
                           key={currency.AlphabeticCode}
-                          value={currency.AlphabeticCode ?? "USD"}
+                          value={currency.AlphabeticCode ?? ""}
                         >
-                          {currency.Currency}
+                          {`${currency.Entity} - ${currency.AlphabeticCode} - ${currency.Currency}`}
                         </option>
                       ))}
                     </Select>
+                    {/* Alternative option: */}
+                    {/* <CurrencyInput
+                      onCurrencySelected={field.onChange}
+                      ref={field.ref}
+                    /> */}
                   </FormControl>
+                  {/* Alternative option: */}
+                  {/* {watch("currency") && (
+                    <div className="flex items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setValue("currency", "", { shouldValidate: true });
+                        }}
+                      >
+                        <X size={20} />
+                      </button>
+                      <span className="text-sm">{watch("currency")}</span>
+                    </div>
+                  )} */}
                   <FormMessage />
                 </FormItem>
               )}

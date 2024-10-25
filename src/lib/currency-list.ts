@@ -59,7 +59,7 @@ const currencies = [
   {
     Entity: "AMERICAN SAMOA",
     Currency: "US Dollar",
-    AlphabeticCode: "USD",
+    AlphabeticCode: "AMERICAN SAMOA USD",
     NumericCode: 840,
     MinorUnit: 2,
     WithdrawalDate: null,
@@ -468,7 +468,7 @@ const currencies = [
   {
     Entity: "BONAIRE, SINT EUSTATIUS AND SABA",
     Currency: "US Dollar",
-    AlphabeticCode: "USD",
+    AlphabeticCode: "BONAIRE, SINT EUSTATIUS AND SABA USD",
     NumericCode: 840,
     MinorUnit: 2,
     WithdrawalDate: null,
@@ -556,7 +556,7 @@ const currencies = [
   {
     Entity: "BRITISH INDIAN OCEAN TERRITORY (THE)",
     Currency: "US Dollar",
-    AlphabeticCode: "USD",
+    AlphabeticCode: "BRITISH INDIAN OCEAN TERRITORY USD",
     NumericCode: 840,
     MinorUnit: 2,
     WithdrawalDate: null,
@@ -901,7 +901,7 @@ const currencies = [
   {
     Entity: "ECUADOR",
     Currency: "US Dollar",
-    AlphabeticCode: "USD",
+    AlphabeticCode: "ECUADOR USD",
     NumericCode: 840,
     MinorUnit: 2,
     WithdrawalDate: null,
@@ -941,7 +941,7 @@ const currencies = [
   {
     Entity: "EL SALVADOR",
     Currency: "US Dollar",
-    AlphabeticCode: "USD",
+    AlphabeticCode: "EL SALVADOR USD",
     NumericCode: 840,
     MinorUnit: 2,
     WithdrawalDate: null,
@@ -1254,7 +1254,7 @@ const currencies = [
   {
     Entity: "GUAM",
     Currency: "US Dollar",
-    AlphabeticCode: "USD",
+    AlphabeticCode: "GUAM USD",
     NumericCode: 840,
     MinorUnit: 2,
     WithdrawalDate: null,
@@ -1342,7 +1342,7 @@ const currencies = [
   {
     Entity: "HAITI",
     Currency: "US Dollar",
-    AlphabeticCode: "USD",
+    AlphabeticCode: "HAITI USD",
     NumericCode: 840,
     MinorUnit: 2,
     WithdrawalDate: null,
@@ -1886,7 +1886,7 @@ const currencies = [
   {
     Entity: "MARSHALL ISLANDS (THE)",
     Currency: "US Dollar",
-    AlphabeticCode: "USD",
+    AlphabeticCode: "MARSHALL ISLANDS USD",
     NumericCode: 840,
     MinorUnit: 2,
     WithdrawalDate: null,
@@ -1982,7 +1982,7 @@ const currencies = [
   {
     Entity: "MICRONESIA (FEDERATED STATES OF)",
     Currency: "US Dollar",
-    AlphabeticCode: "USD",
+    AlphabeticCode: "MICRONESIA USD",
     NumericCode: 840,
     MinorUnit: 2,
     WithdrawalDate: null,
@@ -2214,7 +2214,7 @@ const currencies = [
   {
     Entity: "NORTHERN MARIANA ISLANDS (THE)",
     Currency: "US Dollar",
-    AlphabeticCode: "USD",
+    AlphabeticCode: "THE NORTHERN MARIANA ISLANDS USD",
     NumericCode: 840,
     MinorUnit: 2,
     WithdrawalDate: null,
@@ -2246,7 +2246,7 @@ const currencies = [
   {
     Entity: "PALAU",
     Currency: "US Dollar",
-    AlphabeticCode: "USD",
+    AlphabeticCode: "PALAU USD",
     NumericCode: 840,
     MinorUnit: 2,
     WithdrawalDate: null,
@@ -2270,7 +2270,7 @@ const currencies = [
   {
     Entity: "PANAMA",
     Currency: "US Dollar",
-    AlphabeticCode: "USD",
+    AlphabeticCode: "PANAMA USD",
     NumericCode: 840,
     MinorUnit: 2,
     WithdrawalDate: null,
@@ -2367,7 +2367,7 @@ const currencies = [
   {
     Entity: "PUERTO RICO",
     Currency: "US Dollar",
-    AlphabeticCode: "USD",
+    AlphabeticCode: "PUERTO RICO USD",
     NumericCode: 840,
     MinorUnit: 2,
     WithdrawalDate: null,
@@ -2943,7 +2943,7 @@ const currencies = [
   {
     Entity: "TIMOR-LESTE",
     Currency: "US Dollar",
-    AlphabeticCode: "USD",
+    AlphabeticCode: "TIMOR-LESTE USD",
     NumericCode: 840,
     MinorUnit: 2,
     WithdrawalDate: null,
@@ -3055,7 +3055,7 @@ const currencies = [
   {
     Entity: "TURKS AND CAICOS ISLANDS (THE)",
     Currency: "US Dollar",
-    AlphabeticCode: "USD",
+    AlphabeticCode: "THE TURKS AND CAICOS ISLANDS USD",
     NumericCode: 840,
     MinorUnit: 2,
     WithdrawalDate: null,
@@ -3129,7 +3129,7 @@ const currencies = [
   {
     Entity: "UNITED STATES MINOR OUTLYING ISLANDS (THE)",
     Currency: "US Dollar",
-    AlphabeticCode: "USD",
+    AlphabeticCode: "THE UNITED STATES MINOR OUTLYING ISLANDS USD",
     NumericCode: 840,
     MinorUnit: 2,
     WithdrawalDate: null,
@@ -3266,7 +3266,7 @@ const currencies = [
   {
     Entity: "VIRGIN ISLANDS (BRITISH)",
     Currency: "US Dollar",
-    AlphabeticCode: "USD",
+    AlphabeticCode: "VIRGIN ISLANDS (BRITISH) USD",
     NumericCode: 840,
     MinorUnit: 2,
     WithdrawalDate: null,
@@ -3274,7 +3274,7 @@ const currencies = [
   {
     Entity: "VIRGIN ISLANDS (U.S.)",
     Currency: "US Dollar",
-    AlphabeticCode: "USD",
+    AlphabeticCode: "VIRGIN ISLANDS USD",
     NumericCode: 840,
     MinorUnit: 2,
     WithdrawalDate: null,
