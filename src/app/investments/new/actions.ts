@@ -23,7 +23,6 @@ export async function createInvestmentPosting(formData: FormData) {
     companyLogoUrl,
     description,
     quantity,
-    totalValueOnPurchase,
     currentPrice,
     stockExchange,
     currency,
@@ -60,7 +59,6 @@ export async function createInvestmentPosting(formData: FormData) {
       description: description?.trim(),
       // Handle optional fields.
       quantity: typeof quantity === "number" ? quantity : undefined,
-      totalValueOnPurchase: totalValueOnPurchase ?? null,
       currentPrice: currentPrice,
       // Handle optional stock exchange.
       stockExchange: stockExchange ?? null,

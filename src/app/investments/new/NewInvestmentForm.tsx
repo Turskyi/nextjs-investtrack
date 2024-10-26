@@ -1,6 +1,7 @@
 "use client";
 
 import LoadingButton from "@/components/LoadingButton";
+import RichTextEditor from "@/components/RichTextEditor";
 import {
   Form,
   FormControl,
@@ -11,8 +12,9 @@ import {
 } from "@/components/ui/form";
 import H1 from "@/components/ui/h1";
 import { Input } from "@/components/ui/input";
-
+import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { draftToMarkdown } from "markdown-draft-js";
 import { useForm } from "react-hook-form";
 import {
   createInvestmentSchema,
@@ -34,6 +36,7 @@ export default function NewInvestmentForm() {
   const {
     handleSubmit,
     control,
+    setFocus,
     formState: { isSubmitting },
   } = form;
 
@@ -194,9 +197,6 @@ export default function NewInvestmentForm() {
                         )?.AlphabeticCode ?? ""
                       }
                     >
-                      <option value="" hidden>
-                        Select an option
-                      </option>
                       {currencies.map((currency) => (
                         <option
                           key={currency.AlphabeticCode}
@@ -206,45 +206,74 @@ export default function NewInvestmentForm() {
                         </option>
                       ))}
                     </Select>
-                    {/* Alternative option: */}
-                    {/* <CurrencyInput
-                      onCurrencySelected={field.onChange}
-                      ref={field.ref}
-                    /> */}
                   </FormControl>
-                  {/* Alternative option: */}
-                  {/* {watch("currency") && (
-                    <div className="flex items-center gap-1">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setValue("currency", "", { shouldValidate: true });
-                        }}
-                      >
-                        <X size={20} />
-                      </button>
-                      <span className="text-sm">{watch("currency")}</span>
-                    </div>
-                  )} */}
                   <FormMessage />
                 </FormItem>
               )}
             />
 
+            {/* Quantity. */}
             <FormField
               control={control}
               name="quantity"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="grow">
                   <FormLabel>Quantity</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. 100" type="number" {...field} />
+                    <div className="flex items-center">
+                      <Input
+                        id="quantity"
+                        defaultValue={0}
+                        placeholder="e.g. 100"
+                        type="number"
+                        {...field}
+                        onChange={(e) => {
+                          // Parse the input value as an integer and call the field's onChange
+                          const value = parseInt(e.target.value, 10);
+                          field.onChange(isNaN(value) ? undefined : value);
+                        }}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
+            {/* Description. */}
+            <FormField
+              control={control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <Label onClick={() => setFocus("description")}>
+                    Description
+                  </Label>
+                  <FormControl>
+                    <RichTextEditor
+                      onChange={(draft) =>
+                        field.onChange(draftToMarkdown(draft))
+                      }
+                      ref={field.ref}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/* Current price of the stock (float to allow decimal values). */}
+            <FormField
+              control={control}
+              name="currentPrice"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Current Price</FormLabel>
+                  <FormControl>
+                    <Input {...field} type="number" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <LoadingButton type="submit" loading={isSubmitting}>
               Submit
             </LoadingButton>

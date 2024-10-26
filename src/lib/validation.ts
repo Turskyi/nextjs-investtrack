@@ -19,30 +19,20 @@ const companyLogoSchema = z
   }, "File must be less than 2MB");
 
 // Investment schema for validating `quantity` and `totalValueOnPurchase`.
-const investmentSchema = z
-  .object({
-    quantity: z
-      .number()
-      .int()
-      .min(0, "Quantity must be a positive integer or zero")
-      // Allow this to be optional.
-      .optional(),
-    totalValueOnPurchase: z
-      .number()
-      .positive("Must be a positive number")
-      .optional()
-      // Allow for tracking value even if quantity is zero.
-      .or(z.literal(0)),
-  })
-  .refine(
-    (data) =>
-      data.quantity !== undefined || data.totalValueOnPurchase !== undefined,
-    {
-      message: "Either Quantity or Total Value on Purchase is required",
-      // Attach error to `quantity` field in case validation fails.
-      path: ["quantity"],
-    },
-  );
+const investmentSchema = z.object({
+  quantity: z
+    .number({
+      required_error: "Quantity is required",
+      invalid_type_error: "Quantity must be a valid number",
+    })
+    .int("Quantity must be an integer")
+    .min(0, "Quantity must be a positive integer or zero")
+    .refine((val) => val === undefined || Number.isInteger(val), {
+      message: "Quantity must be an integer",
+    })
+    // Allow this to be optional.
+    .optional(),
+});
 
 const stockExchangeSchema = z
   .object({
