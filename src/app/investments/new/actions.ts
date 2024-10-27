@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { toSlug } from "@/lib/utils";
 import { createInvestmentSchema } from "@/lib/validation";
 // For handling company logo uploads, if needed.
 import { put } from "@vercel/blob";
@@ -9,7 +10,7 @@ import { nanoid } from "nanoid";
 import { redirect } from "next/navigation";
 import path from "path";
 
-// Inspired by the "jobs/new/actions.ts" implementation from the Next.js Job Board project by CodingInFlow.
+// Inspired by the "jobs/new/actions.ts" server actions from the Next.js Job Board project by CodingInFlow.
 // Source: https://github.com/codinginflow/nextjs-job-board/blob/d40cc79f5e0c1f503e437d97ef689b01e552db59/src/app/jobs/new/actions.ts
 // Function to handle investment posting.
 export async function createInvestmentPosting(formData: FormData) {
@@ -29,7 +30,7 @@ export async function createInvestmentPosting(formData: FormData) {
   } = createInvestmentSchema.parse(values);
 
   // Generate a unique slug for the investment posting.
-  const slug = `${ticker}-${nanoid(10)}`;
+  const slug = `${toSlug(ticker)}-${nanoid(10)}`;
 
   let companyLogoUrlString: string | undefined = undefined;
 
@@ -58,8 +59,8 @@ export async function createInvestmentPosting(formData: FormData) {
       companyLogoUrl: companyLogoUrlString,
       description: description?.trim(),
       // Handle optional fields.
-      quantity: typeof quantity === "number" ? quantity : undefined,
-      currentPrice: currentPrice,
+      quantity: typeof quantity === "string" ? parseInt(quantity) : 0,
+      currentPrice: parseFloat(currentPrice),
       // Handle optional stock exchange.
       stockExchange: stockExchange ?? null,
       // Handle optional currency field.

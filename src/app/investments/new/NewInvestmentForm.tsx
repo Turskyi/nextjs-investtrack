@@ -45,21 +45,14 @@ export default function NewInvestmentForm() {
 
     Object.entries(values).forEach(([key, value]) => {
       if (value) {
-        if (typeof value === "number") {
-          formData.append(key, value.toString());
-        } else if (value instanceof File) {
-          formData.append(key, value);
-        } else {
-          // For strings or other types.
-          formData.append(key, value);
-        }
+        formData.append(key, value);
       }
     });
 
     try {
       await createInvestmentPosting(formData);
     } catch (error) {
-      console.error(error); // Log the error if needed
+      console.error(error);
       alert("Something went wrong, please try again.");
     }
   }
@@ -227,11 +220,6 @@ export default function NewInvestmentForm() {
                         placeholder="e.g. 100"
                         type="number"
                         {...field}
-                        onChange={(e) => {
-                          // Parse the input value as an integer and call the field's onChange
-                          const value = parseInt(e.target.value, 10);
-                          field.onChange(isNaN(value) ? undefined : value);
-                        }}
                       />
                     </div>
                   </FormControl>

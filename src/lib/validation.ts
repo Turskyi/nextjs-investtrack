@@ -5,6 +5,10 @@ import currencies from "./currency-list";
 // Inspired by the "validation.ts" implementation from the Next.js Job Board project by CodingInFlow.
 // Source: https://github.com/codinginflow/nextjs-job-board/blob/Final-Project/src/lib/validation.ts
 const requiredString = z.string().min(1, "Required");
+const numericRequiredString = requiredString.regex(
+  /^\d+(\.\d+)?$/,
+  "Must be a number",
+);
 
 // Validation for the company logo (optional, must be an image file, less than 2MB).
 const companyLogoSchema = z
@@ -20,16 +24,8 @@ const companyLogoSchema = z
 
 // Investment schema for validating `quantity` and `totalValueOnPurchase`.
 const investmentSchema = z.object({
-  quantity: z
-    .number({
-      required_error: "Quantity is required",
-      invalid_type_error: "Quantity must be a valid number",
-    })
-    .int("Quantity must be an integer")
+  quantity: numericRequiredString
     .min(0, "Quantity must be a positive integer or zero")
-    .refine((val) => val === undefined || Number.isInteger(val), {
-      message: "Quantity must be an integer",
-    })
     // Allow this to be optional.
     .optional(),
 });
@@ -84,7 +80,7 @@ export const createInvestmentSchema = z
     // Company logo is optional and validated.
     companyLogoUrl: companyLogoSchema,
     description: z.string().max(5000).optional(),
-    currentPrice: z.number().positive("Must be a positive number"),
+    currentPrice: numericRequiredString,
   })
   // Merging with the investment schema for quantity and total value.
   .and(investmentSchema)

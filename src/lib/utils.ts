@@ -5,13 +5,13 @@ import { formatDistanceToNowStrict } from "date-fns";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
-export function formatMoney(amount: number) {
+export function formatMoney(amount: number, currency: string = "USD") {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "USD",
+    currency: currency,
   }).format(amount);
 }
 
