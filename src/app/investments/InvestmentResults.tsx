@@ -4,7 +4,8 @@ import { InvestmentFilterValues } from "@/lib/validation";
 import { Prisma } from "@prisma/client";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import InvestmentListItem from "./InvestmentListItem";
+import InvestmentListItem from "../../components/InvestmentListItem";
+import { auth } from "@clerk/nextjs/server";
 
 // Inspired by the "JobResults" component from the Next.js Job Board project by CodingInFlow.
 // Source: https://github.com/codinginflow/nextjs-job-board/blob/Final-Project/src/components/JobResults.tsx
@@ -17,6 +18,10 @@ export default async function InvestmentResults({
   filterValues,
   page = 1,
 }: InvestmentResultsProps) {
+  const { userId } = auth();
+
+  if (!userId) throw Error("userId undefined 😞");
+
   const { q, type, currency, stockExchange, isPurchased } = filterValues;
 
   const investmentsPerPage = 6;
@@ -41,6 +46,8 @@ export default async function InvestmentResults({
 
   const where: Prisma.InvestmentWhereInput = {
     AND: [
+      // Ensure only investments belonging to the authenticated user are fetched.
+      { userId },
       searchFilter,
       type ? { type } : {},
       currency ? { currency } : {},
@@ -76,9 +83,11 @@ export default async function InvestmentResults({
       ))}
       {investments.length === 0 && (
         <p className="m-auto text-center">
-          No investments found. Try adjusting your search filters.
+          No investments found. You may not have created any investments yet, or
+          your search filters are too narrow.
         </p>
       )}
+
       {investments.length > 0 && (
         <Pagination
           currentPage={page}

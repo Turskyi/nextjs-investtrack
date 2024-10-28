@@ -1,7 +1,5 @@
 "use client";
 
-import LoadingButton from "@/components/LoadingButton";
-import RichTextEditor from "@/components/RichTextEditor";
 import {
   Form,
   FormControl,
@@ -12,35 +10,50 @@ import {
 } from "@/components/ui/form";
 import H1 from "@/components/ui/h1";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { draftToMarkdown } from "markdown-draft-js";
 import { useForm } from "react-hook-form";
+
 import {
   createInvestmentSchema,
   CreateInvestmentValues,
 } from "@/lib/validation";
-import { createInvestment } from "./actions";
 import Select from "@/components/ui/select";
 import { investmentTypes, stockExchangeTypes } from "@/lib/investment-types";
 import currencies from "@/lib/currency-list";
+import Markdown from "@/components/Markdown";
+import { updateInvestment } from "./actions";
+import FormSubmitButton from "@/components/FormSubmitButton";
+import { Investment } from "@prisma/client";
+import { Loader2 } from "lucide-react";
 
 // This implementation is inspired by the "NewJobForm" component from the
 // Next.js Job Board project by CodingInFlow.
 // Source: https://github.com/codinginflow/nextjs-job-board/blob/Final-Project/src/app/jobs/new/NewJobForm.tsx.
-export default function NewInvestmentForm() {
+
+interface InvestmentFormProps {
+  initialValues: Partial<CreateInvestmentValues>;
+  investment: Investment;
+}
+
+export default function InvestmentForm({
+  initialValues,
+  investment,
+}: InvestmentFormProps) {
   const form = useForm<CreateInvestmentValues>({
     resolver: zodResolver(createInvestmentSchema),
+    defaultValues: initialValues,
   });
 
   const {
     handleSubmit,
     control,
-    setFocus,
     formState: { isSubmitting },
   } = form;
 
-  async function onSubmit(values: CreateInvestmentValues) {
+  async function onSubmit(
+    values: CreateInvestmentValues,
+    investmentId: number,
+  ) {
     const formData = new FormData();
 
     Object.entries(values).forEach(([key, value]) => {
@@ -48,9 +61,10 @@ export default function NewInvestmentForm() {
         formData.append(key, value);
       }
     });
-
+    // Append investmentId to the formData.
+    formData.append("investmentId", investmentId.toString());
     try {
-      await createInvestment(formData);
+      await updateInvestment(formData);
     } catch (error) {
       console.error(error);
       alert("Something went wrong, please try again.");
@@ -60,10 +74,8 @@ export default function NewInvestmentForm() {
   return (
     <main className="m-auto my-10 max-w-3xl space-y-10">
       <div className="space-y-5 text-center">
-        <H1>Create a New Investment</H1>
-        <p className="text-muted-foreground">
-          Submit the details of a new investment opportunity.
-        </p>
+        <H1>Edit Investment.</H1>
+        <p className="text-muted-foreground">Update the investment details.</p>
       </div>
       <div className="space-y-6 rounded-lg border p-4">
         <Form {...form}>
@@ -72,7 +84,7 @@ export default function NewInvestmentForm() {
             // Disable native validation, because we will use our own
             // validation, with our own error message, not the browser message.
             noValidate
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit((values) => onSubmit(values, investment.id))}
           >
             {/* Ticker. */}
             <FormField
@@ -82,7 +94,11 @@ export default function NewInvestmentForm() {
                 <FormItem>
                   <FormLabel>Ticker Symbol</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. AAPL" {...field} />
+                    <Input
+                      placeholder="e.g. AAPL"
+                      {...field}
+                      defaultValue={initialValues.ticker}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -101,7 +117,11 @@ export default function NewInvestmentForm() {
                         Select an option
                       </option>
                       {investmentTypes.map((type) => (
-                        <option key={type} value={type}>
+                        <option
+                          key={type}
+                          value={type}
+                          defaultValue={initialValues.type}
+                        >
                           {type}
                         </option>
                       ))}
@@ -119,29 +139,10 @@ export default function NewInvestmentForm() {
                 <FormItem>
                   <FormLabel>Company Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. Apple Inc." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* Company logo. */}
-            <FormField
-              control={control}
-              name="companyLogoUrl"
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              render={({ field: { value, ...fieldValues } }) => (
-                <FormItem>
-                  <FormLabel>Company Logo</FormLabel>
-                  <FormControl>
                     <Input
-                      {...fieldValues}
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        fieldValues.onChange(file);
-                      }}
+                      placeholder="e.g. Apple Inc."
+                      {...field}
+                      defaultValue={initialValues.companyName}
                     />
                   </FormControl>
                   <FormMessage />
@@ -161,7 +162,11 @@ export default function NewInvestmentForm() {
                         Select an option
                       </option>
                       {stockExchangeTypes.map((stockExchange) => (
-                        <option key={stockExchange} value={stockExchange}>
+                        <option
+                          key={stockExchange}
+                          value={stockExchange}
+                          defaultValue={initialValues.stockExchange}
+                        >
                           {stockExchange}
                         </option>
                       ))}
@@ -179,21 +184,13 @@ export default function NewInvestmentForm() {
                 <FormItem>
                   <FormLabel>Currency</FormLabel>
                   <FormControl>
-                    <Select
-                      {...field}
-                      defaultValue={
-                        currencies.find(
-                          (currency) =>
-                            currency.AlphabeticCode === "USD" &&
-                            currency.Entity ===
-                              "UNITED STATES OF AMERICA (THE)",
-                        )?.AlphabeticCode ?? ""
-                      }
-                    >
+                    <Select {...field} defaultValue={initialValues.currency}>
                       {currencies.map((currency) => (
                         <option
                           key={currency.AlphabeticCode}
-                          value={currency.AlphabeticCode ?? ""}
+                          value={
+                            currency.AlphabeticCode ?? initialValues.currency
+                          }
                         >
                           {`${currency.Entity} - ${currency.AlphabeticCode} - ${currency.Currency}`}
                         </option>
@@ -216,7 +213,7 @@ export default function NewInvestmentForm() {
                     <div className="flex items-center">
                       <Input
                         id="quantity"
-                        defaultValue={0}
+                        defaultValue={initialValues.quantity}
                         placeholder="e.g. 100"
                         type="number"
                         {...field}
@@ -228,26 +225,11 @@ export default function NewInvestmentForm() {
               )}
             />
             {/* Description. */}
-            <FormField
-              control={control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <Label onClick={() => setFocus("description")}>
-                    Description
-                  </Label>
-                  <FormControl>
-                    <RichTextEditor
-                      onChange={(draft) =>
-                        field.onChange(draftToMarkdown(draft))
-                      }
-                      ref={field.ref}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+            <div>
+              {initialValues.description && (
+                <Markdown>{initialValues.description}</Markdown>
               )}
-            />
+            </div>
             {/* Current price of the stock (float to allow decimal values). */}
             <FormField
               control={control}
@@ -256,15 +238,22 @@ export default function NewInvestmentForm() {
                 <FormItem>
                   <FormLabel>Current Price</FormLabel>
                   <FormControl>
-                    <Input {...field} type="number" />
+                    <Input
+                      {...field}
+                      type="number"
+                      defaultValue={initialValues.currentPrice}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <LoadingButton type="submit" loading={isSubmitting}>
-              Submit
-            </LoadingButton>
+            <input hidden name="investmentId" value={investment.id} />
+            <input hidden name="slug" value={investment.slug} />
+            <FormSubmitButton className="w-full bg-green-500 hover:bg-green-600">
+              Update
+            </FormSubmitButton>
+            {isSubmitting && <Loader2 size={16} className="animate-spin" />}
           </form>
         </Form>
       </div>

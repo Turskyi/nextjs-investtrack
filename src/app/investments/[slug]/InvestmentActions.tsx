@@ -1,56 +1,67 @@
 "use client";
 
+import FormSubmitButton from "@/components/FormSubmitButton";
+import { Investment } from "@prisma/client";
+import { useFormState } from "react-dom";
+import { deleteInvestment } from "./actions";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import prisma from "@/lib/prisma";
-import { useEffect, useRef, useState } from "react";
 
 interface InvestmentActionsProps {
-  slug: string;
+  investment: Investment;
 }
 
-export default function InvestmentActions({ slug }: InvestmentActionsProps) {
-  const router = useRouter();
-  const editButtonRef = useRef<HTMLButtonElement>(null);
-  const deleteButtonRef = useRef<HTMLButtonElement>(null);
-  const [buttonWidth, setButtonWidth] = useState<number | null>(null);
-
-  const handleEdit = () => {
-    router.push(`/edit-investment/${slug}`);
-  };
-
-  const handleDelete = async () => {
-    const confirmed = confirm(
-      "Are you sure you want to delete this investment?",
-    );
-    if (confirmed) {
-      await prisma.investment.delete({
-        where: { slug },
-      });
-      router.push("/investments");
-    }
-  };
-useEffect(() => {
-    const editWidth = editButtonRef.current?.offsetWidth || 0;
-    const deleteWidth = deleteButtonRef.current?.offsetWidth || 0;
-    setButtonWidth(Math.max(editWidth, deleteWidth));
-  }, []);
+export default function InvestmentActions({
+  investment,
+}: InvestmentActionsProps) {
   return (
-    <aside className="space-y-3">
-      <Button onClick={handleEdit} 
-     ref={editButtonRef}
-     style={{ width: buttonWidth ? `${buttonWidth}px` : 'auto' }}
-      >
-        Edit
-      </Button>
-      <Button
-        onClick={handleDelete}
-        ref={deleteButtonRef}
-        style={{ width: buttonWidth ? `${buttonWidth}px` : 'auto' }}
-        variant="destructive"
-      >
-        Delete
-      </Button>
+    <aside className="flex w-[200px] flex-none flex-row items-center gap-2 md:flex-col md:items-stretch">
+      <UpdateInvestmentButton
+        investmentId={investment.id}
+        slag={investment.slug}
+      />
+
+      <DeleteInvestmentButton
+        investmentId={investment.id}
+        slag={investment.slug}
+      />
     </aside>
+  );
+}
+
+interface ActionButtonProps {
+  investmentId: number;
+  slag: string;
+}
+
+function UpdateInvestmentButton({ investmentId, slag }: ActionButtonProps) {
+  const router = useRouter();
+  const editUrl = `/investments/${slag}?isEditing=true`;
+  const handleEdit = () => {
+    router.push(editUrl);
+  };
+
+  return (
+    <form action={handleEdit} className="space-y-1">
+      <input hidden name="investmentId" value={investmentId} />
+      <FormSubmitButton className="w-full bg-green-500 hover:bg-green-600">
+        Edit
+      </FormSubmitButton>
+    </form>
+  );
+}
+
+function DeleteInvestmentButton({ investmentId }: ActionButtonProps) {
+  const [formState, formAction] = useFormState(deleteInvestment, undefined);
+
+  return (
+    <form action={formAction} className="space-y-1">
+      <input hidden name="investmentId" value={investmentId} />
+      <FormSubmitButton className="w-full bg-red-500 hover:bg-red-600">
+        Delete
+      </FormSubmitButton>
+      {formState?.error && (
+        <p className="text-sm text-red-500">{formState.error}</p>
+      )}
+    </form>
   );
 }

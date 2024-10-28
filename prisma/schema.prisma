@@ -18,6 +18,7 @@ datasource db {
 model Investment {
   // Unique identifier for the investment.
   id                   Int       @id @default(autoincrement())
+  userId               String
   // Unique slug for the investment.
   slug                 String    @unique
   // Ticker symbol (e.g., AAPL for Apple).

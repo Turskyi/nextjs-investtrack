@@ -1,86 +1,42 @@
-import InvestmentFilterSidebar from "@/components/InvestmentFilterSidebar";
-import InvestmentResults from "@/components/InvestmentResults";
-import H1 from "@/components/ui/h1";
-import { InvestmentFilterValues } from "@/lib/validation";
-import { Metadata } from "next";
+import logo from "@/assets/logo.webp";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { APP_NAME } from "../../constants";
+import { auth } from "@clerk/nextjs/server";
+import Footer from "@/components/Footer";
 
-// Inspired by the "app/page.tsx" component from the Next.js Job Board project by CodingInFlow.
-// Source: https://github.com/codinginflow/nextjs-job-board/blob/Final-Project/src/app/page.tsx
-interface PageProps {
-  searchParams: {
-    q?: string;
-    type?: string;
-    currency?: string;
-    stockExchange?: string;
-    isPurchased?: string;
-    page?: string;
-  };
-}
+const INVESTMENTS_PATH = "/investments";
 
-function getTitle({
-  q,
-  type,
-  currency,
-  stockExchange,
-  isPurchased,
-}: InvestmentFilterValues) {
-  const titlePrefix = q
-    ? `${q} investments`
-    : type
-      ? `${type} opportunities`
-      : stockExchange
-        ? `${stockExchange} investments`
-        : isPurchased === true
-          ? "Purchased investments"
-          : isPurchased === false
-            ? "Not purchased investments"
-            : "All investments";
+export default function Home() {
+  const { userId } = auth();
 
-  const titleSuffix = currency ? ` in ${currency}` : "";
-
-  return `${titlePrefix}${titleSuffix}`;
-}
-
-export function generateMetadata({
-  searchParams: { q, type, currency, stockExchange, isPurchased },
-}: PageProps): Metadata {
-  return {
-    title: `${getTitle({
-      q,
-      type,
-      currency,
-      stockExchange,
-      isPurchased: isPurchased === "true",
-    })} | InvestTrack`,
-  };
-}
-
-export default async function Home({
-  searchParams: { q, type, currency, stockExchange, isPurchased, page },
-}: PageProps) {
-  const filterValues: InvestmentFilterValues = {
-    q,
-    type,
-    currency,
-    stockExchange,
-    isPurchased: isPurchased === "true",
-  };
+  if (userId) redirect(INVESTMENTS_PATH);
 
   return (
-    <main className="m-auto my-10 max-w-5xl space-y-10 px-3">
-      <div className="space-y-5 text-center">
-        <H1>{getTitle(filterValues)}</H1>
-        <p className="text-muted-foreground">
-          Find your next investment opportunity.
+    <main className="flex h-screen flex-col justify-evenly gap-5">
+      <div className="flex h-screen flex-grow flex-col items-center justify-center gap-5">
+        <div className="flex items-center gap-4">
+          <Image
+            src={logo}
+            alt={`${APP_NAME} logo`}
+            width={200}
+            height={200}
+            className="rounded-lg"
+          />
+          <span className="text-4xl font-extrabold tracking-tight lg:text-5xl">
+            {APP_NAME}
+          </span>
+        </div>
+        <p className="max-w-prose text-center">
+          Track and manage your investments with ease.
         </p>
+        <Button size="lg" className="h-12 w-80" asChild>
+          <Link href={INVESTMENTS_PATH}>View Investments</Link>
+        </Button>
       </div>
-      <section className="flex flex-col gap-4 md:flex-row">
-        <InvestmentFilterSidebar defaultValues={filterValues} />
-        <InvestmentResults
-          filterValues={filterValues}
-          page={page ? parseInt(page) : undefined}
-        />
-      </section>
+      <Footer />
     </main>
   );
 }
