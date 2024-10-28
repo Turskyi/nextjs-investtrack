@@ -249,20 +249,6 @@ export default function NewInvestmentForm() {
                 </FormItem>
               )}
             />
-            {/* Current price of the stock (float to allow decimal values). */}
-            <FormField
-              control={control}
-              name="currentPrice"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Current Price</FormLabel>
-                  <FormControl>
-                    <Input {...field} type="number" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <LoadingButton type="submit" loading={isSubmitting}>
               Submit
             </LoadingButton>
