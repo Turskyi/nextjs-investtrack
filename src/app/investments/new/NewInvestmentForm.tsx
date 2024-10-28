@@ -74,43 +74,6 @@ export default function NewInvestmentForm() {
             noValidate
             onSubmit={handleSubmit(onSubmit)}
           >
-            {/* Ticker. */}
-            <FormField
-              control={control}
-              name="ticker"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Ticker Symbol</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g. AAPL" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* Type. */}
-            <FormField
-              control={control}
-              name="type"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Investment Type</FormLabel>
-                  <FormControl>
-                    <Select {...field} defaultValue="">
-                      <option value="" hidden>
-                        Select an option
-                      </option>
-                      {investmentTypes.map((type) => (
-                        <option key={type} value={type}>
-                          {type}
-                        </option>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             {/* Company name. */}
             <FormField
               control={control}
@@ -148,6 +111,30 @@ export default function NewInvestmentForm() {
                 </FormItem>
               )}
             />
+
+            {/* Type. */}
+            <FormField
+              control={control}
+              name="type"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Investment Type</FormLabel>
+                  <FormControl>
+                    <Select {...field} defaultValue="">
+                      <option value="" hidden>
+                        Select an option
+                      </option>
+                      {investmentTypes.map((type) => (
+                        <option key={type} value={type}>
+                          {type}
+                        </option>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             {/* Stock Exchange. */}
             <FormField
               control={control}
@@ -166,6 +153,20 @@ export default function NewInvestmentForm() {
                         </option>
                       ))}
                     </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/* Ticker. */}
+            <FormField
+              control={control}
+              name="ticker"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Ticker Symbol</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g. AAPL" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
