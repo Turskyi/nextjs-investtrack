@@ -17,18 +17,17 @@ export default function Home() {
   return (
     <main className="flex h-screen flex-col justify-evenly gap-5">
       <div className="flex h-screen flex-grow flex-col items-center justify-center gap-5">
-        <div className="flex items-center gap-4">
-          <Image
-            src={logo}
-            alt={`${APP_NAME} logo`}
-            width={200}
-            height={200}
-            className="rounded-lg"
-          />
-          <span className="text-4xl font-extrabold tracking-tight lg:text-5xl">
-            {APP_NAME}
-          </span>
-        </div>
+        <Image
+          src={logo}
+          alt={`${APP_NAME} logo`}
+          width={200}
+          height={200}
+          className="rounded-lg"
+        />
+        <span className="text-4xl font-extrabold tracking-tight lg:text-5xl">
+          {APP_NAME}
+        </span>
+
         <p className="max-w-prose text-center">
           Track and manage your investments with ease.
         </p>

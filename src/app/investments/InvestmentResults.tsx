@@ -116,7 +116,6 @@ function Pagination({
       ...(type && { type }),
       ...(currency && { currency }),
       ...(stockExchange && { stockExchange }),
-      ...(isPurchased && { isPurchased: "true" }),
       page: page.toString(),
     });
 

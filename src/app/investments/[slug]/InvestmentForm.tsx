@@ -259,4 +259,4 @@ export default function InvestmentForm({
       </div>
     </main>
   );
-}
+} 
