@@ -35,10 +35,14 @@ export default function NewInvestmentForm() {
 
   const {
     handleSubmit,
+    watch,
     control,
     setFocus,
     formState: { isSubmitting },
   } = form;
+
+  // Watch the quantity value.
+  const quantity = watch("quantity");
 
   async function onSubmit(values: CreateInvestmentValues) {
     const formData = new FormData();
@@ -53,7 +57,7 @@ export default function NewInvestmentForm() {
       await createInvestment(formData);
     } catch (error) {
       console.error(error);
-      alert("Something went wrong, please try again.");
+      alert("Something went wrong, please try again. 😓");
     }
   }
 
@@ -88,23 +92,18 @@ export default function NewInvestmentForm() {
                 </FormItem>
               )}
             />
-            {/* Company logo. */}
+            {/* Company logo URL */}
             <FormField
               control={control}
               name="companyLogoUrl"
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              render={({ field: { value, ...fieldValues } }) => (
+              render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Company Logo</FormLabel>
+                  <FormLabel>Company Logo URL</FormLabel>
                   <FormControl>
                     <Input
-                      {...fieldValues}
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        fieldValues.onChange(file);
-                      }}
+                      {...field}
+                      type="url"
+                      placeholder="Enter direct image URL. (For example https://blah.webp)"
                     />
                   </FormControl>
                   <FormMessage />
@@ -228,6 +227,30 @@ export default function NewInvestmentForm() {
                 </FormItem>
               )}
             />
+            {/* Purchase Date. */}
+            {/* Conditionally render Purchase Date if quantity > 0. */}
+            {typeof quantity === "string" &&
+              quantity !== "0" &&
+              quantity !== "" && (
+                <FormField
+                  control={control}
+                  name="purchaseDate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Purchase Date</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="date"
+                          placeholder="Select purchase date"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+
             {/* Description. */}
             <FormField
               control={control}

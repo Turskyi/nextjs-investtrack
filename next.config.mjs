@@ -17,6 +17,7 @@ const nextConfig = {
       { hostname: "dl.dropboxusercontent.com" },
       { hostname: "www.dropbox.com" },
       { hostname: "play.google.com" },
+      { hostname: "s.yimg.com" },
     ],
   },
 };

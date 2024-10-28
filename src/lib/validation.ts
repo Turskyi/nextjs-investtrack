@@ -10,24 +10,20 @@ const numericRequiredString = requiredString.regex(
   "Must be a number",
 );
 
-// Validation for the company logo (optional, must be an image file, less than 2MB).
+// Validation for the company logo (optional, must be a valid URL).
 const companyLogoSchema = z
-  .custom<File | undefined>()
-  .refine(
-    (file) => !file || (file instanceof File && file.type.startsWith("image/")),
-    "Must be an image file",
-  )
-  .refine((file) => {
-    // kb multiply mb multiply 2.
-    return !file || file.size < 1024 * 1024 * 2;
-  }, "File must be less than 2MB");
+  .string()
+  // Ensures it's a valid URL.
+  .url("Must be a valid URL")
+  // Allows it to be empty or undefined.
+  .optional();
 
 // Investment schema for validating `quantity` and `totalValueOnPurchase`.
 const investmentSchema = z.object({
   quantity: numericRequiredString
     .min(0, "Quantity must be a positive integer or zero")
     // Allow this to be optional.
-    .optional(),
+    .optional()
 });
 
 const stockExchangeSchema = z.object({
@@ -46,20 +42,20 @@ const currencySchema = z.object({
 
 // Define each component schema separately
 const tickerSchema = z.object({
-  ticker: requiredString.max(10, "Ticker symbol can't exceed 10 characters"),
+  ticker: requiredString.max(10, "Ticker symbol can't exceed 10 characters."),
 });
 
 const typeSchema = z.object({
   type: requiredString.refine(
     (value) => investmentTypes.includes(value),
-    "Invalid investment type",
+    "Invalid investment type.",
   ),
 });
 
 const companyNameSchema = z.object({
   companyName: requiredString.max(
     100,
-    "Company name can't exceed 100 characters",
+    "Company name can't exceed 100 characters.",
   ),
 });
 
@@ -75,6 +71,7 @@ const baseInvestmentSchema = tickerSchema
     description: z.string().max(5000).optional(),
     currentPrice: numericRequiredString,
     slug: z.string().optional(),
+    purchaseDate: z.string().optional(),
   });
 
 export const createInvestmentSchema = baseInvestmentSchema
@@ -82,14 +79,14 @@ export const createInvestmentSchema = baseInvestmentSchema
     (data) =>
       !data.stockExchange || stockExchangeTypes.includes(data.stockExchange),
     {
-      message: "Invalid stock exchange type",
+      message: "Invalid stock exchange type.",
       path: ["stockExchange"],
     },
   )
   .refine(
     (data) => !data.currency || acceptedCurrencies.includes(data.currency),
     {
-      message: "Invalid or unsupported currency type",
+      message: "Invalid or unsupported currency type.",
       path: ["currency"],
     },
   );
