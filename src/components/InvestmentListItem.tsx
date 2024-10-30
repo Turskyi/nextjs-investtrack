@@ -1,7 +1,7 @@
 import companyLogoPlaceholder from "@/assets/company-logo-placeholder.jpeg";
-import { formatMoney, relativeDate } from "@/lib/utils";
+import { relativeDate } from "@/lib/utils";
 import { Investment } from "@prisma/client";
-import { Banknote, Briefcase, Clock, Globe2, MapPin } from "lucide-react";
+import { Briefcase, Clock, Globe2, MapPin } from "lucide-react";
 import Image from "next/image";
 import Badge from "./Badge";
 
@@ -16,7 +16,6 @@ export default function InvestmentListItem({
     type,
     stockExchange,
     currency,
-    currentPrice,
     companyLogoUrl,
     purchaseDate,
   },
@@ -47,10 +46,6 @@ export default function InvestmentListItem({
           <p className="flex items-center gap-1.5">
             <Globe2 size={16} className="shrink-0" />
             {currency || "USD"}
-          </p>
-          <p className="flex items-center gap-1.5">
-            <Banknote size={16} className="shrink-0" />
-            {formatMoney(currentPrice)}
           </p>
           <p className="flex items-center gap-1.5 sm:hidden">
             <Clock size={16} className="shrink-0" />

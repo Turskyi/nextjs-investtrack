@@ -25,6 +25,7 @@ import { updateInvestment } from "./actions";
 import FormSubmitButton from "@/components/FormSubmitButton";
 import { Investment } from "@prisma/client";
 import { Loader2 } from "lucide-react";
+import { formatDateToISO } from "@/lib/utils";
 
 // This implementation is inspired by the "NewJobForm" component from the
 // Next.js Job Board project by CodingInFlow.
@@ -46,14 +47,22 @@ export default function InvestmentForm({
 
   const {
     handleSubmit,
+    watch,
     control,
     formState: { isSubmitting },
   } = form;
+
+  // Watch the quantity value.
+  const quantity = watch("quantity");
 
   async function onSubmit(
     values: CreateInvestmentValues,
     investmentId: number,
   ) {
+    // Format `purchaseDate` to full ISO-8601 if it exists
+    if (values.purchaseDate) {
+      values.purchaseDate = formatDateToISO(values.purchaseDate);
+    }
     const formData = new FormData();
 
     Object.entries(values).forEach(([key, value]) => {
@@ -67,7 +76,7 @@ export default function InvestmentForm({
       await updateInvestment(formData);
     } catch (error) {
       console.error(error);
-      alert("Something went wrong, please try again.");
+      alert("Something went wrong 😓, please try again.");
     }
   }
 
@@ -86,18 +95,37 @@ export default function InvestmentForm({
             noValidate
             onSubmit={handleSubmit((values) => onSubmit(values, investment.id))}
           >
-            {/* Ticker. */}
+            {/* Company name. */}
             <FormField
               control={control}
-              name="ticker"
+              name="companyName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Ticker Symbol</FormLabel>
+                  <FormLabel>Company Name</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="e.g. AAPL"
+                      placeholder="e.g. Apple Inc."
                       {...field}
-                      defaultValue={initialValues.ticker}
+                      defaultValue={initialValues.companyName}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/* Company logo URL */}
+            <FormField
+              control={control}
+              name="companyLogoUrl"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Company Logo URL</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      defaultValue={initialValues.companyLogoUrl}
+                      type="url"
+                      placeholder="Enter direct image URL. (For example https://blah.webp)"
                     />
                   </FormControl>
                   <FormMessage />
@@ -131,24 +159,7 @@ export default function InvestmentForm({
                 </FormItem>
               )}
             />
-            {/* Company name. */}
-            <FormField
-              control={control}
-              name="companyName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Company Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="e.g. Apple Inc."
-                      {...field}
-                      defaultValue={initialValues.companyName}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
             {/* Stock Exchange. */}
             <FormField
               control={control}
@@ -176,6 +187,26 @@ export default function InvestmentForm({
                 </FormItem>
               )}
             />
+
+            {/* Ticker. */}
+            <FormField
+              control={control}
+              name="ticker"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Ticker Symbol</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="e.g. AAPL"
+                      {...field}
+                      defaultValue={initialValues.ticker}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             {/* Currency. */}
             <FormField
               control={control}
@@ -224,30 +255,37 @@ export default function InvestmentForm({
                 </FormItem>
               )}
             />
+
+            {/* Purchase Date. */}
+            {/* Conditionally render Purchase Date if quantity > 0. */}
+            {typeof quantity === "string" &&
+              quantity !== "0" &&
+              quantity !== "" && (
+                <FormField
+                  control={control}
+                  name="purchaseDate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Purchase Date</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="date"
+                          placeholder="Select purchase date"
+                          {...field}
+                          defaultValue={initialValues.purchaseDate}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
             {/* Description. */}
             <div>
               {initialValues.description && (
                 <Markdown>{initialValues.description}</Markdown>
               )}
             </div>
-            {/* Current price of the stock (float to allow decimal values). */}
-            <FormField
-              control={control}
-              name="currentPrice"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Current Price</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="number"
-                      defaultValue={initialValues.currentPrice}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <input hidden name="investmentId" value={investment.id} />
             <input hidden name="slug" value={investment.slug} />
             <FormSubmitButton className="w-full bg-green-500 hover:bg-green-600">
@@ -259,4 +297,4 @@ export default function InvestmentForm({
       </div>
     </main>
   );
-} 
+}

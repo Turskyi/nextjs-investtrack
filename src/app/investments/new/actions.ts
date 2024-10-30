@@ -33,6 +33,7 @@ export async function createInvestment(formData: FormData): Promise<FormState> {
       quantity,
       stockExchange,
       currency,
+      purchaseDate,
     } = createInvestmentSchema.parse(values);
 
     // Generate a unique slug for the investment posting.
@@ -55,13 +56,18 @@ export async function createInvestment(formData: FormData): Promise<FormState> {
         stockExchange: stockExchange ?? null,
         // Handle optional currency field.
         currency: typeof currency === "string" ? currency : undefined,
+        purchaseDate: purchaseDate,
+        isPurchased:
+          quantity !== "0" &&
+          quantity !== "" &&
+          typeof purchaseDate === "string",
       },
     });
 
     // Redirect the user to the confirmation page after successful submission
     revalidatePath("/investment-submitted");
   } catch (error) {
-    let message = "Unexpected error";
+    let message = "Unexpected error 😓";
     if (error instanceof Error) {
       message = error.message;
     }

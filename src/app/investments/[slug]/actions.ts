@@ -3,20 +3,17 @@
 import prisma from "@/lib/prisma";
 import { updateInvestmentSchema } from "@/lib/validation";
 import { auth, currentUser } from "@clerk/nextjs/server";
-import path from "path";
-import { del, put } from "@vercel/blob";
+import { del } from "@vercel/blob";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 type FormState = { error?: string } | undefined;
 
 export async function updateInvestment(formData: FormData): Promise<FormState> {
-
   const investmentId = parseInt(formData.get("investmentId") as string);
 
   const slugId = formData.get("slug");
   try {
-
     const { userId } = auth();
 
     if (!userId) {
@@ -33,49 +30,37 @@ export async function updateInvestment(formData: FormData): Promise<FormState> {
       companyLogoUrl,
       description,
       quantity,
-      currentPrice,
       stockExchange,
       currency,
       slug,
+      purchaseDate,
     } = updateInvestmentSchema.parse(values);
-
-    let companyLogoUrlString: string | undefined = undefined;
-
-    // Handle company logo update if a new logo was provided.
-    if (companyLogoUrl) {
-
-      const blob = await put(
-        `company_logos/${slug ?? investmentId}${path.extname(companyLogoUrl.name)}`,
-        companyLogoUrl,
-        {
-          access: "public",
-          addRandomSuffix: false,
-        },
-      );
-      companyLogoUrlString = blob.url;
-    }
 
     await prisma.investment.update({
       where: { id: investmentId },
       data: {
         id: investmentId,
         userId: userId,
+        slug,
         ticker: ticker?.trim(),
         type: type,
         companyName: companyName?.trim(),
-        companyLogoUrl: companyLogoUrlString,
+        companyLogoUrl: companyLogoUrl,
         description: description?.trim(),
         quantity: quantity ? parseInt(quantity) : 0,
-        currentPrice: currentPrice ? parseFloat(currentPrice) : undefined,
         stockExchange: stockExchange ?? null,
         currency: currency ?? undefined,
+        purchaseDate: purchaseDate,
+        isPurchased:
+          quantity !== "0" &&
+          quantity !== "" &&
+          typeof purchaseDate === "string",
       },
     });
 
     revalidatePath("/");
   } catch (error) {
-  
-    let message = "Unexpected error";
+    let message = "Unexpected error 🥺";
     if (error instanceof Error) {
       message = error.message;
     }

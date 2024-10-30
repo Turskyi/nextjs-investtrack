@@ -5,6 +5,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import InvestmentForm from "./InvestmentForm";
+import { formatDateForInput } from '@/lib/utils';
 
 interface PageProps {
   params: { slug: string };
@@ -59,9 +60,12 @@ export default async function Page({
             stockExchange: investment.stockExchange ?? undefined,
             currency: investment.currency,
             description: investment.description ?? undefined,
-            currentPrice: `${investment.currentPrice}`,
             companyName: investment.companyName,
             quantity: `${investment.quantity}`,
+            companyLogoUrl: investment.companyLogoUrl ?? undefined,
+            purchaseDate: investment.purchaseDate
+              ? formatDateForInput(investment.purchaseDate)
+              : "No purchase date available.",
           }}
           investment={investment}
         />

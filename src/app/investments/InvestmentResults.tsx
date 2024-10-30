@@ -108,7 +108,7 @@ interface PaginationProps {
 function Pagination({
   currentPage,
   totalPages,
-  filterValues: { q, type, currency, stockExchange, isPurchased },
+  filterValues: { q, type, currency, stockExchange },
 }: PaginationProps) {
   function generatePageLink(page: number) {
     const searchParams = new URLSearchParams({

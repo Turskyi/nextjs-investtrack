@@ -1,4 +1,4 @@
-import { formatMoney } from "@/lib/utils";
+import { formatDateForDisplay, formatMoney } from "@/lib/utils";
 import { Investment } from "@prisma/client";
 import {
   Banknote,
@@ -40,7 +40,6 @@ export default function InvestmentPage({
     ticker,
     description,
     companyName,
-    currentPrice,
     type,
     stockExchange,
     currency,
@@ -51,7 +50,7 @@ export default function InvestmentPage({
   },
 }: InvestmentPageProps) {
   const isPurchased = quantity > 0;
-  const totalValueCurrent = quantity * currentPrice;
+  const totalValueCurrent = quantity * 0;
   const totalValuePurchase = quantity * (purchasePrice || 0);
   const gainOrLoss = totalValueCurrent - totalValuePurchase;
   const gainOrLossPercentage = totalValuePurchase
@@ -98,7 +97,7 @@ export default function InvestmentPage({
             </p>
             <p className="flex items-center gap-1.5">
               <Banknote size={16} className="shrink-0" />
-              {formatMoney(currentPrice, currency)}
+              {formatMoney(0, currency)}
             </p>
           </div>
         </div>
@@ -114,7 +113,7 @@ export default function InvestmentPage({
             <p className="flex items-center gap-1.5">
               <Calendar size={16} className="shrink-0" />
               Purchase Date:{" "}
-              {purchaseDate ? purchaseDate.toLocaleDateString() : "N/A"}
+              {purchaseDate ? formatDateForDisplay(purchaseDate) : "N/A"}
             </p>
             <p className="flex items-center gap-1.5">
               <Banknote size={16} className="shrink-0" />
