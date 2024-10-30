@@ -31,8 +31,6 @@ model Investment {
   currency             String    @default("USD")
   // Optional: Additional details about the investment.
   description          String?
-  // Current price of the stock (float to allow decimal values).
-  currentPrice         Float
   // Name of the company or investment entity.
   companyName          String
   // Number of shares purchased.

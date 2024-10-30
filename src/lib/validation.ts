@@ -15,6 +15,7 @@ const companyLogoSchema = z
   .string()
   // Ensures it's a valid URL.
   .url("Must be a valid URL")
+  .or(z.literal(""))
   // Allows it to be empty or undefined.
   .optional();
 
@@ -23,7 +24,7 @@ const investmentSchema = z.object({
   quantity: numericRequiredString
     .min(0, "Quantity must be a positive integer or zero")
     // Allow this to be optional.
-    .optional()
+    .optional(),
 });
 
 const stockExchangeSchema = z.object({
@@ -69,7 +70,6 @@ const baseInvestmentSchema = tickerSchema
   .extend({
     companyLogoUrl: companyLogoSchema,
     description: z.string().max(5000).optional(),
-    currentPrice: numericRequiredString,
     slug: z.string().optional(),
     purchaseDate: z.string().optional(),
   });

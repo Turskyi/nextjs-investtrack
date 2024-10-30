@@ -4,12 +4,10 @@ import prisma from "@/lib/prisma";
 import { toSlug } from "@/lib/utils";
 import { createInvestmentSchema } from "@/lib/validation";
 import { auth } from "@clerk/nextjs/server";
-// For handling company logo uploads, if needed.
-import { put } from "@vercel/blob";
 // For generating unique IDs or slugs.
 import { nanoid } from "nanoid";
 import { revalidatePath } from "next/cache";
-import path from "path";
+import { redirect } from "next/navigation";
 
 type FormState = { error?: string } | undefined;
 
@@ -33,29 +31,12 @@ export async function createInvestment(formData: FormData): Promise<FormState> {
       companyLogoUrl,
       description,
       quantity,
-      currentPrice,
       stockExchange,
       currency,
     } = createInvestmentSchema.parse(values);
 
     // Generate a unique slug for the investment posting.
     const slug = `${toSlug(ticker)}-${nanoid(10)}`;
-
-    let companyLogoUrlString: string | undefined = undefined;
-
-    // Handle company logo upload (if a logo was provided).
-    if (companyLogoUrl) {
-      const blob = await put(
-        `company_logos/${slug}${path.extname(companyLogoUrl.name)}`,
-        companyLogoUrl,
-        {
-          access: "public",
-          addRandomSuffix: false,
-        },
-      );
-      // Save the URL of the uploaded logo.
-      companyLogoUrlString = blob.url;
-    }
 
     // Save the validated investment posting to the database.
     await prisma.investment.create({
@@ -66,11 +47,10 @@ export async function createInvestment(formData: FormData): Promise<FormState> {
         type,
         companyName: companyName.trim(),
         // Save the uploaded logo URL (if available).
-        companyLogoUrl: companyLogoUrlString,
+        companyLogoUrl: companyLogoUrl,
         description: description?.trim(),
         // Handle optional fields.
         quantity: typeof quantity === "string" ? parseInt(quantity) : 0,
-        currentPrice: parseFloat(currentPrice),
         // Handle optional stock exchange.
         stockExchange: stockExchange ?? null,
         // Handle optional currency field.
@@ -87,4 +67,5 @@ export async function createInvestment(formData: FormData): Promise<FormState> {
     }
     return { error: message };
   }
+  redirect("/investment-submitted");
 }
