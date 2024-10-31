@@ -9,33 +9,46 @@ import {
   Calendar,
 } from "lucide-react";
 import Image from "next/image";
-import Markdown from "./Markdown";
-import { investmentTypes } from "@/lib/investment-types";
+import Markdown from "../../../components/Markdown";
+import { investmentTypeColors } from "@/lib/investment-types";
 
 interface InvestmentPageProps {
   investment: Investment;
 }
 
-// Generate a random color
-const getRandomColor = () => {
-  const letters = "0123456789ABCDEF";
-  let color = "#";
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
+async function fetchStockPrice(ticker: string) {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/finance?ticker=${ticker}`,
+    );
+
+    if (!res.ok) throw new Error("Failed to fetch stock price 😔.");
+    const data = await res.json();
+    return data.currentPrice;
+  } catch (error) {
+    console.error(error);
+    return null;
   }
-  return color;
-};
+}
 
-// Generate color mapping for each investment type
-const typeColors: Record<string, string> = investmentTypes.reduce(
-  (acc, type) => {
-    acc[type] = getRandomColor();
-    return acc;
-  },
-  {} as Record<string, string>,
-);
+async function fetchExchangeRate(
+  fromCurrency: string,
+  toCurrency: string = "CAD",
+) {
+  try {
+    const res = await fetch(
+      `https://api.exchangerate-api.com/v4/latest/${fromCurrency}`,
+    );
+    if (!res.ok) throw new Error("Failed to fetch exchange rate 😔.");
+    const data = await res.json();
+    return data.rates[toCurrency] || null;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
 
-export default function InvestmentPage({
+export default async function InvestmentPage({
   investment: {
     ticker,
     description,
@@ -49,8 +62,12 @@ export default function InvestmentPage({
     purchasePrice,
   },
 }: InvestmentPageProps) {
+  const currentPrice = await fetchStockPrice(ticker);
   const isPurchased = quantity > 0;
-  const totalValueCurrent = quantity * 0;
+  const totalValueCurrent = quantity * (currentPrice || 0);
+  const exchangeRate =
+    currency !== "CAD" ? await fetchExchangeRate(currency) : 1;
+  const totalValueCAD = exchangeRate ? totalValueCurrent * exchangeRate : null;
   const totalValuePurchase = quantity * (purchasePrice || 0);
   const gainOrLoss = totalValueCurrent - totalValuePurchase;
   const gainOrLossPercentage = totalValuePurchase
@@ -58,7 +75,7 @@ export default function InvestmentPage({
     : "0.00";
 
   // Get the color for the current investment type
-  const typeColor = typeColors[type] || "text-gray-500";
+  const typeColor = investmentTypeColors[type] || "text-gray-500";
 
   return (
     <section className="w-full grow space-y-5">
@@ -92,12 +109,14 @@ export default function InvestmentPage({
               {stockExchange}
             </p>
             <p className="flex items-center gap-1.5">
-              <Globe2 size={16} className="shrink-0" />
-              {currency}
+              <Banknote size={16} className="shrink-0" />
+              {currentPrice !== null
+                ? formatMoney(currentPrice, currency)
+                : "Price unavailable"}
             </p>
             <p className="flex items-center gap-1.5">
-              <Banknote size={16} className="shrink-0" />
-              {formatMoney(0, currency)}
+              <Globe2 size={16} className="shrink-0" />
+              {currency}
             </p>
           </div>
         </div>
@@ -111,6 +130,16 @@ export default function InvestmentPage({
               Quantity: {quantity}
             </p>
             <p className="flex items-center gap-1.5">
+              <TrendingUp size={16} className="shrink-0" />
+              Total Value (Current): {formatMoney(totalValueCurrent, currency)}
+            </p>
+            {totalValueCAD && (
+              <p className="flex items-center gap-1.5">
+                <TrendingUp size={16} className="shrink-0" />
+                Total Value (Current CAD): {formatMoney(totalValueCAD, "CAD")}
+              </p>
+            )}
+            <p className="flex items-center gap-1.5">
               <Calendar size={16} className="shrink-0" />
               Purchase Date:{" "}
               {purchaseDate ? formatDateForDisplay(purchaseDate) : "N/A"}
@@ -119,10 +148,6 @@ export default function InvestmentPage({
               <Banknote size={16} className="shrink-0" />
               Purchase Price:{" "}
               {purchasePrice ? formatMoney(purchasePrice, currency) : "N/A"}
-            </p>
-            <p className="flex items-center gap-1.5">
-              <TrendingUp size={16} className="shrink-0" />
-              Total Value (Current): {formatMoney(totalValueCurrent, currency)}
             </p>
             <p className="flex items-center gap-1.5">
               <TrendingUp size={16} className="shrink-0" />

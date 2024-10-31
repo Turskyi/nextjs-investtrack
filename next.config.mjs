@@ -18,6 +18,7 @@ const nextConfig = {
       { hostname: "www.dropbox.com" },
       { hostname: "play.google.com" },
       { hostname: "s.yimg.com" },
+      { hostname: 'invest.turskyi.com' },
     ],
   },
 };

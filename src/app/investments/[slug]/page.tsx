@@ -1,11 +1,11 @@
 import InvestmentActions from "@/app/investments/[slug]/InvestmentActions";
-import InvestmentPage from "@/components/InvestmentPage";
+import InvestmentPage from "@/app/investments/[slug]/InvestmentPage";
 import prisma from "@/lib/prisma";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import InvestmentForm from "./InvestmentForm";
-import { formatDateForInput } from '@/lib/utils';
+import { formatDateForInput } from "@/lib/utils";
 
 interface PageProps {
   params: { slug: string };
