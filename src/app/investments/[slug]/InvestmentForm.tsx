@@ -20,12 +20,14 @@ import {
 import Select from "@/components/ui/select";
 import { investmentTypes, stockExchangeTypes } from "@/lib/investment-types";
 import currencies from "@/lib/currency-list";
-import Markdown from "@/components/Markdown";
 import { updateInvestment } from "./actions";
 import FormSubmitButton from "@/components/FormSubmitButton";
 import { Investment } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import { formatDateToISO } from "@/lib/utils";
+import { Label } from "@/components/ui/label";
+import RichTextEditor from "@/components/RichTextEditor";
+import { draftToMarkdown } from "markdown-draft-js";
 
 // This implementation is inspired by the "NewJobForm" component from the
 // Next.js Job Board project by CodingInFlow.
@@ -49,6 +51,7 @@ export default function InvestmentForm({
     handleSubmit,
     watch,
     control,
+    setFocus,
     formState: { isSubmitting },
   } = form;
 
@@ -281,11 +284,29 @@ export default function InvestmentForm({
                 />
               )}
             {/* Description. */}
-            <div>
-              {initialValues.description && (
-                <Markdown>{initialValues.description}</Markdown>
+            <FormField
+              control={control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <Label onClick={() => setFocus("description")}>
+                    Description
+                  </Label>
+                  <FormControl>
+                    <RichTextEditor
+                      onChange={(draft) =>
+                        field.onChange(draftToMarkdown(draft))
+                      }
+                      // Set initial content.
+                      initialContent={initialValues.description || ""}
+                      ref={field.ref}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
               )}
-            </div>
+            />
+
             <input hidden name="investmentId" value={investment.id} />
             <input hidden name="slug" value={investment.slug} />
             <FormSubmitButton className="w-full bg-green-500 hover:bg-green-600">
