@@ -42,7 +42,7 @@ function UpdateInvestmentButton({ investmentId, slag }: ActionButtonProps) {
 
   return (
     <form action={handleEdit} className="space-y-1">
-      <input hidden name="investmentId" value={investmentId} />
+      <input hidden name="investmentId" defaultValue={investmentId} />
       <FormSubmitButton className="w-full bg-green-500 hover:bg-green-600">
         Edit
       </FormSubmitButton>
@@ -55,7 +55,7 @@ function DeleteInvestmentButton({ investmentId }: ActionButtonProps) {
 
   return (
     <form action={formAction} className="space-y-1">
-      <input hidden name="investmentId" value={investmentId} />
+      <input hidden name="investmentId" defaultValue={investmentId} />
       <FormSubmitButton className="w-full bg-red-500 hover:bg-red-600">
         Delete
       </FormSubmitButton>

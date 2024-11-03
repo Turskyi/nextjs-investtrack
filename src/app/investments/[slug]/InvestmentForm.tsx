@@ -59,7 +59,7 @@ export default function InvestmentForm({
     values: CreateInvestmentValues,
     investmentId: number,
   ) {
-    // Format `purchaseDate` to full ISO-8601 if it exists
+    // Format `purchaseDate` to full ISO-8601 if it exists.
     if (values.purchaseDate) {
       values.purchaseDate = formatDateToISO(values.purchaseDate);
     }
@@ -266,11 +266,11 @@ export default function InvestmentForm({
                   name="purchaseDate"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Purchase Date</FormLabel>
+                      <FormLabel>Purchase Date and Time</FormLabel>
                       <FormControl>
                         <Input
-                          type="date"
-                          placeholder="Select purchase date"
+                          type="datetime-local"
+                          placeholder="Select purchase date and time"
                           {...field}
                           defaultValue={initialValues.purchaseDate}
                         />

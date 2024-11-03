@@ -237,11 +237,11 @@ export default function NewInvestmentForm() {
                   name="purchaseDate"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Purchase Date</FormLabel>
+                      <FormLabel>Purchase Date and Time</FormLabel>
                       <FormControl>
                         <Input
-                          type="date"
-                          placeholder="Select purchase date"
+                          type="datetime-local"
+                          placeholder="Select purchase date and time"
                           {...field}
                         />
                       </FormControl>

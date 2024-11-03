@@ -16,13 +16,22 @@ interface InvestmentPageProps {
   investment: Investment;
 }
 
-async function fetchStockPrice(ticker: string) {
+async function fetchStockPrice(ticker: string, date?: Date | string | null) {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/finance?ticker=${ticker}`,
-    );
+    // If a date is provided, format it as a string (YYYY-MM-DDTHH:MM:SS).
+    const formattedDate =
+      date instanceof Date
+        ? // This removes the milliseconds part.
+          date.toISOString().split(".")[0]
+        : date;
 
+    const url = formattedDate
+      ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/finance?ticker=${ticker}&date=${formattedDate}`
+      : `${process.env.NEXT_PUBLIC_BASE_URL}/api/finance?ticker=${ticker}`;
+
+    const res = await fetch(url);
     if (!res.ok) throw new Error("Failed to fetch stock price 😔.");
+
     const data = await res.json();
     return data.currentPrice;
   } catch (error) {
@@ -59,10 +68,11 @@ export default async function InvestmentPage({
     companyLogoUrl,
     quantity,
     purchaseDate,
-    purchasePrice,
   },
 }: InvestmentPageProps) {
   const currentPrice = await fetchStockPrice(ticker);
+  // Fetch price on purchase date.
+  const purchasePrice = await fetchStockPrice(ticker, purchaseDate);
   const isPurchased = quantity > 0;
   const totalValueCurrent = quantity * (currentPrice || 0);
   const exchangeRate =
@@ -74,7 +84,7 @@ export default async function InvestmentPage({
     ? ((gainOrLoss / totalValuePurchase) * 100).toFixed(2)
     : "0.00";
 
-  // Get the color for the current investment type
+  // Get the color for the current investment type.
   const typeColor = investmentTypeColors[type] || "text-gray-500";
 
   return (

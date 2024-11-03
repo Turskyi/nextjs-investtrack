@@ -19,25 +19,31 @@ export function relativeDate(from: Date) {
 
 export const formatDateToISO = (date: string) => new Date(date).toISOString();
 
-// Utility to format date to `YYYY-MM-DD`.
 export const formatDateForInput = (date: Date | string) => {
   const d = typeof date === "string" ? new Date(date) : date;
-  // YYYY-MM-DD format.
-  return d.toISOString().split("T")[0];
+  // Format to YYYY-MM-DDTHH:MM.
+  const year = d.getFullYear();
+  // getMonth() is zero-based.
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  const hours = String(d.getHours()).padStart(2, "0");
+  const minutes = String(d.getMinutes()).padStart(2, "0");
+
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
 
 export const formatDateForDisplay = (date: Date | string) => {
   const d = typeof date === "string" ? new Date(date) : date;
-  // Adjust to remove local timezone effect, treating it as UTC.
-  const utcDate = new Date(d.getTime() + d.getTimezoneOffset() * 60000);
 
-  // Format to desired display format: MM/DD/YYYY.
-  const day = String(utcDate.getUTCDate()).padStart(2, "0");
-  const month = String(utcDate.getUTCMonth() + 1).padStart(2, "0");
-  // getUTCMonth() is zero-based.
-  const year = utcDate.getUTCFullYear();
+  const day = String(d.getDate()).padStart(2, "0");
+  // getMonth() is zero-based.
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year = d.getFullYear();
+  const hours = String(d.getHours()).padStart(2, "0");
+  const minutes = String(d.getMinutes()).padStart(2, "0");
+  const seconds = String(d.getSeconds()).padStart(2, "0");
 
-  return `${month}/${day}/${year}`;
+  return `${month}/${day}/${year} ${hours}:${minutes}:${seconds}`;
 };
 
 export function toSlug(str: string) {
