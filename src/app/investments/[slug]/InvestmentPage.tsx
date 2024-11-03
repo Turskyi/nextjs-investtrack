@@ -16,6 +16,19 @@ interface InvestmentPageProps {
   investment: Investment;
 }
 
+async function fetchPriceChange(ticker: string) {
+  try {
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api/change?ticker=${ticker}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Failed to fetch price change 😔.");
+    const data = await res.json();
+    return data.priceChange;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
 async function fetchStockPrice(ticker: string, date?: Date | string | null) {
   try {
     // If a date is provided, format it as a string (YYYY-MM-DDTHH:MM:SS).
@@ -92,6 +105,8 @@ export default async function InvestmentPage({
 
   // Get the color for the current investment type.
   const typeColor = investmentTypeColors[type] || "text-gray-500";
+
+  const priceChange = await fetchPriceChange(ticker);
 
   return (
     <section className="w-full grow space-y-5">
@@ -196,8 +211,9 @@ export default async function InvestmentPage({
         )}
         <div className="space-y-2 text-muted-foreground">
           <p className="flex items-center gap-1.5">
-            <TrendingUp size={16} className="shrink-0" />
-            Price Change: {/* Placeholder for live data */}
+            {" "}
+            <TrendingUp size={16} className="shrink-0" /> Price Change:{" "}
+            {priceChange ? `${priceChange.toFixed(2)}%` : "N/A"}{" "}
           </p>
           <p className="flex items-center gap-1.5">
             <TrendingUp size={16} className="shrink-0" />
