@@ -1,5 +1,5 @@
 "use client";
-import { useClerk } from "@clerk/nextjs";
+import { useClerk, useUser } from "@clerk/nextjs";
 import logo from "@/assets/logo.png";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,7 +9,9 @@ import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const { user, signOut } = useClerk();
+  const { isSignedIn } = useUser();
   const router = useRouter();
+
   return (
     <header className="shadow-sm">
       <nav className="m-auto flex max-w-5xl items-center justify-between px-3 py-5">
@@ -18,18 +20,22 @@ export default function Navbar() {
           <span className="text-xl font-bold tracking-tight">{APP_NAME}</span>
         </Link>
 
-        <span className="font-semibold">
-          {user?.primaryEmailAddress?.emailAddress}
-        </span>
-        <button
-          onClick={async () => {
-            await signOut();
-            router.push("/");
-          }}
-          className="underline"
-        >
-          Log out
-        </button>
+        {isSignedIn && (
+          <>
+            <span className="font-semibold">
+              {user?.primaryEmailAddress?.emailAddress}
+            </span>
+            <button
+              onClick={async () => {
+                await signOut();
+                router.push("/");
+              }}
+              className="underline"
+            >
+              Log out
+            </button>
+          </>
+        )}
 
         {/* `asChild` makes component look like Button, but act like Link. */}
         <Button asChild>
