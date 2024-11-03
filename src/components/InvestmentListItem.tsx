@@ -18,6 +18,7 @@ export default function InvestmentListItem({
     currency,
     companyLogoUrl,
     purchaseDate,
+    quantity,
   },
 }: InvestmentListItemProps) {
   return (
@@ -46,6 +47,10 @@ export default function InvestmentListItem({
           <p className="flex items-center gap-1.5">
             <Globe2 size={16} className="shrink-0" />
             {currency || "USD"}
+          </p>
+          <p className="flex items-center gap-1.5">
+            {" "}
+            <Briefcase size={16} className="shrink-0" /> Quantity: {quantity}{" "}
           </p>
           <p className="flex items-center gap-1.5 sm:hidden">
             <Clock size={16} className="shrink-0" />
