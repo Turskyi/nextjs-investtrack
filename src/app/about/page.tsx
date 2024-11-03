@@ -2,16 +2,31 @@ import Head from "next/head";
 import Link from "next/link";
 import { INSTAGRAM } from "../../../constants";
 
+const calculateAge = (birthDate: string): number => {
+  const today = new Date();
+  const birthDateObj = new Date(birthDate);
+  let age = today.getFullYear() - birthDateObj.getFullYear();
+  const monthDiff = today.getMonth() - birthDateObj.getMonth();
+  if (
+    monthDiff < 0 ||
+    (monthDiff === 0 && today.getDate() < birthDateObj.getDate())
+  ) {
+    age--;
+  }
+  return age;
+};
+
 export default function AboutUs() {
+  const birthDate = "2008-04-05";
+  const age = calculateAge(birthDate);
+
   return (
     <div className="bg-body background-color text-body color p-5">
       <Head>
-        <title>
-          {/* TODO: compose title, for example "About Us - Something something..."*/}
-        </title>
+        <title>About Us - Empowering Beginner Investors</title>
         <meta
           name="description"
-          //   TODO: compose content, for example "content="Learn more about Vitalii Khomenko, his journey, and the story behind ....""
+          content="Learn more about our platform, designed to assist beginner investors with tracking and managing their investments. Discover the story of Vitalii Khomenko, a young investment enthusiast, and Dmytro Turskyi, the developer behind the project."
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -19,7 +34,32 @@ export default function AboutUs() {
       <main className="container mx-auto">
         <h1 className="mb-6 text-4xl font-bold">About Us</h1>
         <section className="mb-6">
-          {/* TODO: compose content about Vitalii Khomenko and his passion to investments even though he is so young and he was born in April 5, 2008. And few words about the husband of his sister (me the developer) Dmytro Turskyi, who build this project for him, so it will be easier to work with investments rather than just in google sheets. */}
+          <p>
+            Welcome to our platform, a powerful tool designed to assist beginner
+            investors in tracking and managing their investments. This project
+            is the brainchild of Vitalii Khomenko, a {age}-year-old investment
+            enthusiast who was born on April 5, 2008. Despite his young age,
+            Vitalii has shown a remarkable aptitude for investments, creating a
+            comprehensive Google Sheets table to track his progress.
+          </p>
+          <p>
+            Recognizing the potential to make this process even more efficient,
+            Dmytro Turskyi, the husband of Vitalii&apos;s sister, stepped in to
+            bring Vitalii&apos;s vision to life. As a developer, Dmytro built
+            this project to replicate and expand upon the functionalities of
+            Vitalii&apos;s Google Sheets table. The web version of this project
+            includes authentication features, allowing anyone to create an
+            account and manage their investments, whether they are purchased or
+            not.
+          </p>
+          <p>
+            This platform is not just a tool but a testament to the
+            collaborative effort between Vitalii, who provided the business
+            ideas and the necessary investment knowledge, and Dmytro, who
+            implemented these ideas into a functional and user-friendly
+            application. If a high school student can create and utilize such a
+            powerful tool, so can any beginner investor.
+          </p>
         </section>
         <section className="mb-6">
           <h2 className="mb-4 text-3xl font-bold">Contact Us</h2>
