@@ -1,6 +1,6 @@
 "use client";
 import { useClerk } from "@clerk/nextjs";
-import logo from "@/assets/logo.webp";
+import logo from "@/assets/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";

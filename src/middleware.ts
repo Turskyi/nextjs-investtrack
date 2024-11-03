@@ -5,6 +5,7 @@ const isPublicRoute = createRouteMatcher([
   "/privacy-android",
   "/privacy",
   "/instruction",
+  "/about",
   "/account-deleted",
   "/sign-in(.*)",
   "/sign-up(.*)",
@@ -19,9 +20,9 @@ const isPublicRoute = createRouteMatcher([
   "/api/anonymous-chat-ios-ua",
   "/api/investments",
   "/api/delete-user",
-  '/api/finance',
-  '/api/change',
-  '/api/change-percentage',
+  "/api/finance",
+  "/api/change",
+  "/api/change-percentage",
 ]);
 
 export default clerkMiddleware((auth, request) => {

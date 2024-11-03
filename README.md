@@ -120,7 +120,7 @@ src/
 │   └── layout.tsx
 ├── assets
 │   ├── company-logo-placeholder.jpeg
-│   └── logo.webp
+│   └── logo.png
 ├── .gitignore
 ├── next.config.mjs
 ├── package.json
