@@ -21,6 +21,7 @@ const isPublicRoute = createRouteMatcher([
   "/api/delete-user",
   '/api/finance',
   '/api/change',
+  '/api/change-percentage',
 ]);
 
 export default clerkMiddleware((auth, request) => {

@@ -29,6 +29,20 @@ async function fetchPriceChange(ticker: string) {
   }
 }
 
+async function fetchChangePercentage(ticker: string) {
+  try {
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api/change-percentage?ticker=${ticker}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Failed to fetch change percentage 😔.");
+
+    const data = await res.json();
+    return data.changePercentage;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
 async function fetchStockPrice(ticker: string, date?: Date | string | null) {
   try {
     // If a date is provided, format it as a string (YYYY-MM-DDTHH:MM:SS).
@@ -107,6 +121,8 @@ export default async function InvestmentPage({
   const typeColor = investmentTypeColors[type] || "text-gray-500";
 
   const priceChange = await fetchPriceChange(ticker);
+
+  const changePercentage = await fetchChangePercentage(ticker);
 
   return (
     <section className="w-full grow space-y-5">
@@ -217,7 +233,10 @@ export default async function InvestmentPage({
           </p>
           <p className="flex items-center gap-1.5">
             <TrendingUp size={16} className="shrink-0" />
-            Change %: {/* Placeholder for live data */}
+            Change %:{" "}
+            {changePercentage !== null
+              ? `${changePercentage.toFixed(2)}%`
+              : "N/A"}
           </p>
         </div>
       </div>
