@@ -31,11 +31,11 @@ function getTitle({
       ? `${type} opportunities`
       : stockExchange
         ? `${stockExchange} investments`
-        : isPurchased === true
-          ? "Purchased investments"
-          : isPurchased === false
-            ? "Not purchased investments"
-            : "All investments";
+        : typeof isPurchased === "boolean"
+          ? isPurchased === true
+            ? "Purchased investments"
+            : "Not purchased investments"
+          : "All investments";
 
   const titleSuffix = currency ? ` in ${currency}` : "";
 
@@ -51,7 +51,12 @@ export function generateMetadata({
       type,
       currency,
       stockExchange,
-      isPurchased: isPurchased === "true",
+      isPurchased:
+        isPurchased === "true"
+          ? true
+          : isPurchased === "false"
+            ? false
+            : undefined,
     })} | ${APP_NAME}`,
   };
 }
@@ -64,7 +69,12 @@ export default async function InvestmentsPage({
     type,
     currency,
     stockExchange,
-    isPurchased: isPurchased === "true",
+    isPurchased:
+      isPurchased === "true"
+        ? true
+        : isPurchased === "false"
+          ? false
+          : undefined,
   };
 
   return (

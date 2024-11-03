@@ -21,15 +21,39 @@ async function filterInvestments(formData: FormData) {
   const { q, type, currency, stockExchange, isPurchased } =
     investmentFilterSchema.parse(values);
 
-  const searchParams = new URLSearchParams({
-    ...(q && { q: q.trim() }),
-    ...(type && { type }),
-    ...(currency && { currency }),
-    ...(stockExchange && { stockExchange }),
-    ...(isPurchased && { isPurchased: "true" }),
-  });
+  const searchParams = new URLSearchParams();
 
-  redirect(`/?${searchParams.toString()}`);
+  if (q) {
+    searchParams.set("q", q.trim());
+  } else {
+    searchParams.delete("q");
+  }
+
+  if (type) {
+    searchParams.set("type", type);
+  } else {
+    searchParams.delete("type");
+  }
+
+  if (currency) {
+    searchParams.set("currency", currency);
+  } else {
+    searchParams.delete("currency");
+  }
+
+  if (stockExchange) {
+    searchParams.set("stockExchange", stockExchange);
+  } else {
+    searchParams.delete("stockExchange");
+  }
+
+  if (isPurchased !== undefined) {
+    searchParams.set("isPurchased", String(isPurchased));
+  } else {
+    searchParams.delete("isPurchased");
+  }
+
+  redirect(`/investments?${searchParams.toString()}`);
 }
 
 interface InvestmentFilterSidebarProps {
