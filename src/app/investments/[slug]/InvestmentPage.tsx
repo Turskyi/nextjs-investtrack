@@ -77,11 +77,17 @@ export default async function InvestmentPage({
   const totalValueCurrent = quantity * (currentPrice || 0);
   const exchangeRate =
     currency !== "CAD" ? await fetchExchangeRate(currency) : 1;
-  const totalValueCAD = exchangeRate ? totalValueCurrent * exchangeRate : null;
+  const totalValueCAD = totalValueCurrent * exchangeRate;
   const totalValuePurchase = quantity * (purchasePrice || 0);
+  const totalValuePurchaseCAD = totalValuePurchase * exchangeRate;
+
   const gainOrLoss = totalValueCurrent - totalValuePurchase;
   const gainOrLossPercentage = totalValuePurchase
     ? ((gainOrLoss / totalValuePurchase) * 100).toFixed(2)
+    : "0.00";
+  const gainOrLossCAD = totalValueCAD - totalValuePurchaseCAD;
+  const gainOrLossPercentageCAD = totalValuePurchaseCAD
+    ? ((gainOrLossCAD / totalValuePurchaseCAD) * 100).toFixed(2)
     : "0.00";
 
   // Get the color for the current investment type.
@@ -164,12 +170,27 @@ export default async function InvestmentPage({
               Total Value (Purchase):{" "}
               {formatMoney(totalValuePurchase, currency)}
             </p>
+            {totalValuePurchaseCAD && (
+              <p className="flex items-center gap-1.5">
+                <TrendingUp size={16} className="shrink-0" />
+                Total Value (Purchase CAD):{" "}
+                {formatMoney(totalValuePurchaseCAD, "CAD")}
+              </p>
+            )}
             <p
               className={`flex items-center gap-1.5 ${gainOrLoss >= 0 ? "text-green-500" : "text-red-500"}`}
             >
               <TrendingUp size={16} className="shrink-0" />
               Gain/Loss: {formatMoney(gainOrLoss, currency)} (
               {gainOrLossPercentage}%)
+            </p>
+
+            <p
+              className={`flex items-center gap-1.5 ${gainOrLossCAD >= 0 ? "text-green-500" : "text-red-500"}`}
+            >
+              <TrendingUp size={16} className="shrink-0" />
+              Gain/Loss CAD: {formatMoney(gainOrLossCAD, "CAD")} (
+              {gainOrLossPercentageCAD}%)
             </p>
           </div>
         )}
