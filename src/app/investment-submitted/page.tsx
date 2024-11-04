@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Page() {
   return (
-    <main className="m-auto my-10 max-w-5xl space-y-5 px-3 text-center">
+    <main className="m-auto my-10 max-w-5xl flex-grow space-y-5 px-3 text-center">
       <H1>Investment Submitted</H1>
       <p>Your investment posting has been submitted.</p>
 

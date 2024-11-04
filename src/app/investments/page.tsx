@@ -78,7 +78,7 @@ export default async function InvestmentsPage({
   };
 
   return (
-    <main className="m-auto my-10 max-w-5xl space-y-10 px-3">
+    <main className="m-auto my-10 max-w-5xl space-y-10 px-3 flex-grow">
       <div className="space-y-5 text-center">
         <H1>{getTitle(filterValues)}</H1>
         <p className="text-muted-foreground">

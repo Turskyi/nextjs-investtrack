@@ -1,4 +1,3 @@
-import Head from "next/head";
 import {
   DOMAIN,
   DEVELOPER_DOMAIN,
@@ -11,16 +10,16 @@ import {
   DEVELOPER_COUNTRY,
 } from "../../../constants";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: `Terms of Service - ${APP_NAME}`,
+  description: `Terms of Use for ${APP_NAME}.`,
+};
 
 export default function TermsOfService() {
   return (
     <div className="bg-body background-color text-body color p-5">
-      <Head>
-        <title>{`Terms of Service - ${APP_NAME}`}</title>
-        <meta name="description" content={`Terms of Use for ${APP_NAME}.`} />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <main className="container mx-auto">
         <h1 className="mb-6 text-4xl font-bold">
           {APP_NAME}&apos;s Terms of Service

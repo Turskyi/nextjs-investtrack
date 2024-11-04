@@ -9,3 +9,8 @@ export const DEVELOPER_STREET = "Harmony Village, Finch West Avenue";
 export const DEVELOPER_CITY = "North York, Ontario";
 export const DEVELOPER_POSTAL_CODE = "M9M 0A3";
 export const DEVELOPER_COUNTRY = "Canada";
+export const AUTH_NAME = "Clerk";
+export const AUTH_LINK = "https://clerk.com";
+export const DB_NAME = "Vercel Postgres";
+export const DB_LINK =
+  "https://vercel.com/docs/storage/vercel-postgres#vercel-postgres";

@@ -21,7 +21,7 @@ export default function AboutUs() {
   const age = calculateAge(birthDate);
 
   return (
-    <div className="bg-body background-color text-body color p-5">
+    <div className="bg-body background-color text-body color flex-grow p-5">
       <Head>
         <title>About Us - Empowering Beginner Investors</title>
         <meta

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function ContactUs() {
   return (
-    <div className="bg-body background-color text-body color p-5">
+    <div className="bg-body background-color text-body color flex-grow p-5">
       <Head>
         <title>Contact Us - Get in Touch</title>
         <meta
