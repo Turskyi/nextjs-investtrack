@@ -37,6 +37,8 @@ export default function DeleteAccountPage() {
         setError(result.error || "（。ˇ ⊖ˇ）♡ Failed to delete account");
       }
     } catch (err) {
+      // Logs the error to the console for debugging.
+      console.error("Error:", err);
       setError("An unexpected error occurred ٩(▀̿Ĺ̯▀̿ ̿٩)三");
     } finally {
       setLoading(false);

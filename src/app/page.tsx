@@ -5,7 +5,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { APP_NAME } from "../../constants";
 import { auth } from "@clerk/nextjs/server";
-import Footer from "@/components/Footer";
 
 const INVESTMENTS_PATH = "/investments";
 
@@ -15,8 +14,8 @@ export default function Home() {
   if (userId) redirect(INVESTMENTS_PATH);
 
   return (
-    <main className="flex flex-col justify-evenly gap-5 flex-grow">
-      <div className="flex flex-grow flex-col items-center justify-center gap-5 ">
+    <main className="flex flex-grow flex-col justify-evenly gap-5">
+      <div className="flex flex-grow flex-col items-center justify-center gap-5">
         <Image
           src={logo}
           alt={`${APP_NAME} logo`}

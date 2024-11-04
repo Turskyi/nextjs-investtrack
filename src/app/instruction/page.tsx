@@ -6,7 +6,7 @@ import { useState } from "react";
 
 export default function InstructionPage() {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
 
   const handleLoginRedirect = () => {
     // Redirect to the delete account page.

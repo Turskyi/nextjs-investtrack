@@ -15,12 +15,7 @@ export async function DELETE(request: NextRequest) {
   }
 
   try {
-    // Step 1: Fetch all investments associated with the user.
-    const investments = await prisma.investment.findMany({
-      where: { userId },
-    });
-
-    // Step 2: Delete all investments from the database.
+    // Step 1: Delete all investments from the database.
     await prisma.$transaction(async (tx) => {
       // Delete all investments in Prisma.
       await tx.investment.deleteMany({
@@ -28,7 +23,7 @@ export async function DELETE(request: NextRequest) {
       });
     });
 
-    // Step 3: Delete the user.
+    // Step 2: Delete the user.
     await clerkClient.users.deleteUser(userId);
     return NextResponse.json({ message: "User deleted 😎" });
   } catch (error) {
