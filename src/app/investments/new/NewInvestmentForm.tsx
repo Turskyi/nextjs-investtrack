@@ -168,7 +168,7 @@ export default function NewInvestmentForm() {
                 <FormItem>
                   <FormLabel>Ticker Symbol</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. AAPL" {...field} />
+                    <Input placeholder="e.g. GOOG" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
