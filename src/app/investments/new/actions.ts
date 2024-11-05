@@ -39,6 +39,11 @@ export async function createInvestment(formData: FormData): Promise<FormState> {
     // Generate a unique slug for the investment posting.
     const slug = `${toSlug(ticker)}-${nanoid(10)}`;
 
+    // Ensure purchaseDate is in ISO-8601 format.
+    const formattedPurchaseDate = purchaseDate
+      ? new Date(purchaseDate).toISOString()
+      : null;
+
     // Save the validated investment posting to the database.
     await prisma.investment.create({
       data: {
@@ -56,7 +61,7 @@ export async function createInvestment(formData: FormData): Promise<FormState> {
         stockExchange: stockExchange ?? null,
         // Handle optional currency field.
         currency: typeof currency === "string" ? currency : undefined,
-        purchaseDate: purchaseDate,
+        purchaseDate: formattedPurchaseDate,
         isPurchased:
           quantity !== "0" &&
           quantity !== "" &&
