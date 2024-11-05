@@ -86,7 +86,10 @@ export default function NewInvestmentForm() {
                 <FormItem>
                   <FormLabel>Company Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. Apple Inc." {...field} />
+                    <Input
+                      placeholder="e.g. Alphabet Inc Class C."
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
