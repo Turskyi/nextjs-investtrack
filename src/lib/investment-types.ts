@@ -19,22 +19,22 @@ export const investmentTypes = [
 
 // Define a color palette for consistency
 const colorPalette = [
-  "#1F77B4",
-  "#FF7F0E",
-  "#2CA02C",
-  "#D62728",
-  "#9467BD",
-  "#808080",
-  "#E377C2",
-  "#7F7F7F",
-  "#BCBD22",
-  "#17BECF",
-  "#1F78B4",
-  "#FF9896",
-  "#C5B0D5",
-  "#E7969C",
-  "#7F7F7F",
-  "#AEC7E8",
+  "#1F77B4", // Steel Blue
+  "#FF7F0E", // Dark Orange
+  "#2CA02C", // Forest Green
+  "#FFC0CB", // Pink
+  "#880808", // Red
+  "#808080", // Gray
+  "#000000", // Black
+  "#7F7F7F", // Middle Gray
+  "#BCBD22", // Olive Green
+  "#17BECF", // Bright Cyan
+  "#1F78B4", // Dodger Blue
+  "#FF9896", // Light Coral
+  "#C5B0D5", // Light Purple
+  "#E7969C", // Pale Red
+  "#BF40BF", // Purple
+  "#AEC7E8", // Light Blue
 ];
 
 // Generate the color mapping

@@ -4,6 +4,7 @@ import { Investment } from "@prisma/client";
 import { Briefcase, Clock, Globe2, MapPin } from "lucide-react";
 import Image from "next/image";
 import Badge from "./Badge";
+import { investmentTypeColors } from "@/lib/investment-types";
 
 interface InvestmentListItemProps {
   investment: Investment;
@@ -21,6 +22,9 @@ export default function InvestmentListItem({
     quantity,
   },
 }: InvestmentListItemProps) {
+  // Get the color for the current investment type.
+  const typeColor = investmentTypeColors[type] || "gray";
+
   return (
     <article className="flex gap-3 rounded-lg border p-5 hover:bg-muted/60">
       <Image
@@ -61,7 +65,8 @@ export default function InvestmentListItem({
         </div>
       </div>
       <div className="hidden shrink-0 flex-col items-end justify-between sm:flex">
-        <Badge>{type}</Badge>
+        {/* Render the Badge with the color. */}
+        <Badge color={typeColor}>{type}</Badge>
         <span className="flex items-center gap-1.5 text-muted-foreground">
           <Clock size={16} />
           {purchaseDate ? relativeDate(purchaseDate) : "Not yet purchased"}
