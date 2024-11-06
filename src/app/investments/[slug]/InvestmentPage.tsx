@@ -11,8 +11,8 @@ import {
   // TrendingUp,
   Calendar,
 } from "lucide-react";
-import Image from "next/image";
-import Markdown from "../../../components/Markdown";
+// import Image from "next/image";
+// import Markdown from "../../../components/Markdown";
 import { investmentTypeColors } from "@/lib/investment-types";
 
 interface InvestmentPageProps {
@@ -90,12 +90,12 @@ interface InvestmentPageProps {
 export default async function InvestmentPage({
   investment: {
     ticker,
-    description,
+    // description,
     companyName,
     type,
     stockExchange,
     currency,
-    companyLogoUrl,
+    // companyLogoUrl,
     quantity,
     purchaseDate,
   },
@@ -130,7 +130,7 @@ export default async function InvestmentPage({
   return (
     <section className="w-full grow space-y-5">
       <div className="flex items-center gap-3">
-        {companyLogoUrl && (
+        {/* {companyLogoUrl && (
           <Image
             src={companyLogoUrl}
             alt="Company logo"
@@ -138,7 +138,7 @@ export default async function InvestmentPage({
             height={100}
             className="rounded-xl"
           />
-        )}
+        )} */}
         <div>
           <div>
             <h1 className="text-xl font-bold">{ticker}</h1>
@@ -252,7 +252,7 @@ export default async function InvestmentPage({
         </div>
       </div>
 
-      <div>{description && <Markdown>{description}</Markdown>}</div>
+      {/* <div>{description && <Markdown>{description}</Markdown>}</div> */}
       <div className="mt-5">
         <a
           href="https://companiesmarketcap.com"
