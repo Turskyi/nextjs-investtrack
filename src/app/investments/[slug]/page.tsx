@@ -4,8 +4,8 @@ import prisma from "@/lib/prisma";
 // import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cache } from "react";
-// import InvestmentForm from "./InvestmentForm";
-// import { formatDateForInput } from "@/lib/utils";
+import InvestmentForm from "./InvestmentForm";
+import { formatDateForInput } from "@/lib/utils";
 
 interface PageProps {
   params: { slug: string };
@@ -43,15 +43,15 @@ const getInvestment = cache(async (slug: string) => {
 
 export default async function Page({
   params: { slug },
-  // searchParams,
+  searchParams,
 }: PageProps) {
   const investment = await getInvestment(slug);
 
-  // const isEditing = searchParams.isEditing === "true";
+  const isEditing = searchParams.isEditing === "true";
 
   return (
     <main className="m-auto my-10 flex max-w-5xl flex-col items-center gap-5 px-3 md:flex-row md:items-start">
-      {/* {isEditing ? (
+      {isEditing ? (
         <InvestmentForm
           initialValues={{
             slug: investment.slug,
@@ -69,12 +69,12 @@ export default async function Page({
           }}
           investment={investment}
         />
-      ) : ( */}
-      <>
-        <InvestmentPage investment={investment} />
-        <InvestmentActions investment={investment} />
-      </>
-      {/* // )} */}
+      ) : (
+        <>
+          <InvestmentPage investment={investment} />
+          <InvestmentActions investment={investment} />
+        </>
+      )}
     </main>
   );
 }
