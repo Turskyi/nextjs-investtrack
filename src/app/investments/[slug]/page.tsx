@@ -1,7 +1,7 @@
 import InvestmentActions from "@/app/investments/[slug]/InvestmentActions";
 import InvestmentPage from "@/app/investments/[slug]/InvestmentPage";
 import prisma from "@/lib/prisma";
-// import { Metadata } from "next";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import InvestmentForm from "./InvestmentForm";
@@ -31,15 +31,15 @@ const getInvestment = cache(async (slug: string) => {
 //   return investments.map(({ slug }) => slug);
 // }
 
-// export async function generateMetadata({
-//   params: { slug },
-// }: PageProps): Promise<Metadata> {
-//   const investment = await getInvestment(slug);
+export async function generateMetadata({
+  params: { slug },
+}: PageProps): Promise<Metadata> {
+  const investment = await getInvestment(slug);
 
-//   return {
-//     title: investment.ticker,
-//   };
-// }
+  return {
+    title: investment.ticker,
+  };
+}
 
 export default async function Page({
   params: { slug },
