@@ -1,4 +1,4 @@
-// import InvestmentActions from "@/app/investments/[slug]/InvestmentActions";
+import InvestmentActions from "@/app/investments/[slug]/InvestmentActions";
 import InvestmentPage from "@/app/investments/[slug]/InvestmentPage";
 import prisma from "@/lib/prisma";
 // import { Metadata } from "next";
@@ -70,10 +70,10 @@ export default async function Page({
           investment={investment}
         />
       ) : ( */}
-        <>
-          <InvestmentPage investment={investment} />
-          {/* <InvestmentActions investment={investment} /> */}
-        </>
+      <>
+        <InvestmentPage investment={investment} />
+        <InvestmentActions investment={investment} />
+      </>
       {/* // )} */}
     </main>
   );
