@@ -23,14 +23,6 @@ const getInvestment = cache(async (slug: string) => {
   return investment;
 });
 
-export async function generateStaticParams() {
-  const investments = await prisma.investment.findMany({
-    select: { slug: true },
-  });
-
-  return investments.map(({ slug }) => slug);
-}
-
 export async function generateMetadata({
   params: { slug },
 }: PageProps): Promise<Metadata> {
