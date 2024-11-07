@@ -4,17 +4,17 @@ import currencies from "./currency-list";
 
 // Inspired by the "validation.ts" implementation from the Next.js Job Board project by CodingInFlow.
 // Source: https://github.com/codinginflow/nextjs-job-board/blob/Final-Project/src/lib/validation.ts
-const requiredString = z.string().min(1, "Required");
+const requiredString = z.string().min(1, "Required.");
 const numericRequiredString = requiredString.regex(
   /^\d+(\.\d+)?$/,
-  "Must be a number",
+  "Must be a number 😞.",
 );
 
 // Validation for the company logo (optional, must be a valid URL).
 const companyLogoSchema = z
   .string()
   // Ensures it's a valid URL.
-  .url("Must be a valid URL")
+  .url("Must be a valid URL ≧☉_☉≦.")
   .or(z.literal(""))
   // Allows it to be empty or undefined.
   .optional();
@@ -22,7 +22,7 @@ const companyLogoSchema = z
 // Investment schema for validating `quantity` and `totalValueOnPurchase`.
 const investmentSchema = z.object({
   quantity: numericRequiredString
-    .min(0, "Quantity must be a positive integer or zero")
+    .min(0, "◔̯◔ Quantity must be a positive integer or zero")
     // Allow this to be optional.
     .optional(),
 });
@@ -43,20 +43,23 @@ const currencySchema = z.object({
 
 // Define each component schema separately
 const tickerSchema = z.object({
-  ticker: requiredString.max(10, "Ticker symbol can't exceed 10 characters."),
+  ticker: requiredString.max(
+    10,
+    "Ticker symbol can't exceed 10 characters ¯(°_o)/¯.",
+  ),
 });
 
 const typeSchema = z.object({
   type: requiredString.refine(
     (value) => investmentTypes.includes(value),
-    "Invalid investment type.",
+    "(¬_¬) Invalid investment type.",
   ),
 });
 
 const companyNameSchema = z.object({
   companyName: requiredString.max(
     100,
-    "Company name can't exceed 100 characters.",
+    "(ง°ل͜°)ง Company name can't exceed 100 characters.",
   ),
 });
 
@@ -79,14 +82,14 @@ export const createInvestmentSchema = baseInvestmentSchema
     (data) =>
       !data.stockExchange || stockExchangeTypes.includes(data.stockExchange),
     {
-      message: "Invalid stock exchange type.",
+      message: "Invalid stock exchange type ◉_◉.",
       path: ["stockExchange"],
     },
   )
   .refine(
     (data) => !data.currency || acceptedCurrencies.includes(data.currency),
     {
-      message: "Invalid or unsupported currency type.",
+      message: "⚆ _ ⚆ Invalid or unsupported currency type.",
       path: ["currency"],
     },
   );

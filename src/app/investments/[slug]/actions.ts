@@ -3,7 +3,6 @@
 import prisma from "@/lib/prisma";
 import { updateInvestmentSchema } from "@/lib/validation";
 import { auth, currentUser } from "@clerk/nextjs/server";
-import { del } from "@vercel/blob";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -81,14 +80,6 @@ export async function deleteInvestment(
 
     if (!user) {
       throw new Error("Not authorized 😞");
-    }
-
-    const investment = await prisma.investment.findUnique({
-      where: { id: investmentId },
-    });
-
-    if (investment?.companyLogoUrl) {
-      await del(investment.companyLogoUrl);
     }
 
     await prisma.investment.delete({

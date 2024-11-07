@@ -1,6 +1,6 @@
 [![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct-single.svg)](https://stand-with-ukraine.pp.ua)
 
-# InvestTrack - Web (in progress)
+# InvestTrack - Web
 
 This repository contains the Next.js implementation of **InvestTrack**, an investment tracking platform. The app serves as both a web interface for users and a backend API for a mobile application. InvestTrack helps users manage and track their investments across various stocks and provides essential metrics such as gains, losses, and current market prices.
 
@@ -26,7 +26,7 @@ This repository contains the Next.js implementation of **InvestTrack**, an inves
 
 Before running the application, ensure you have the following installed:
 
-- **Node.js** (v16 or higher)
+- **Node.js** (v20 or higher)
 - **Prisma CLI**: Used to manage migrations and database schema.
 
 ## Getting Started
@@ -48,7 +48,8 @@ npm install
 
 3. Set Up the Database:
 
-You need to set up a PostgreSQL database for the app. Create an `.env` file in the root directory and add your database URL:
+You need to set up a PostgreSQL database for the app. Create an `.env` file in 
+the root directory and add your database URL:
 
 ```bash
 POSTGRES_URL="postgresql://user:password@localhost:5432/investtrack"
@@ -105,7 +106,8 @@ GET /api/investments
 
 ## Mobile App Integration
 
-The Mobile app consumes the API provided by this Next.js app. Ensure that the Mobile app is configured to make requests to the correct API endpoint (http://localhost:3000 during development or the production URL).
+The Mobile app consumes the API provided by this Next.js app. Ensure that the 
+Mobile app is configured to make requests to the correct API endpoint (http://localhost:3000 during development or the production URL).
 
 ## Project Structure
 
@@ -143,10 +145,16 @@ Feel free to submit issues or pull requests if you'd like to contribute to the p
 For any questions or feedback, please feel free to create an issue in this
 repository.
 
+## Screenshot:
+
+<!--suppress CheckImageSize -->
+<img src="screenshots/Screenshot.png" width="700"  alt="screenshot">
+
 ## Credits
 
 This project is based on the
-[Learn Next.js 14 Server Actions With This One Project (UseFormStatus, UseFormState, Error Handling)](https://youtu.be/XD5FpbVpWzk?si=V2BUShLowZq3xKAC)
+[Learn Next.js 14 Server Actions With This One Project (UseFormStatus,
+UseFormState, Error Handling)](https://youtu.be/XD5FpbVpWzk?si=V2BUShLowZq3xKAC)
 by [Coding in Flow](https://github.com/codinginflow) YouTube channel.
 All credit goes to the original author
 [Florian Walther](https://github.com/florianwalther-private).
