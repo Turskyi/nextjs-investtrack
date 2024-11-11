@@ -1,17 +1,24 @@
 [![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct-single.svg)](https://stand-with-ukraine.pp.ua)
+<img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/Turskyi/nextjs-investtrack">
 
 # InvestTrack - Web
 
-This repository contains the Next.js implementation of **InvestTrack**, an investment tracking platform. The app serves as both a web interface for users and a backend API for a mobile application. InvestTrack helps users manage and track their investments across various stocks and provides essential metrics such as gains, losses, and current market prices.
+This repository contains the Next.js implementation of **InvestTrack**, an investment tracking platform. The app serves as both a web interface for users
+and a backend API for a mobile application. InvestTrack helps users manage and
+track their investments across various stocks and provides essential metrics
+such as gains, losses, and current market prices.
 
 ## Features
 
-- **Investment Dashboard**: View all investments with details such as ticker, type, stock exchange, currency, and current value.
+- **Investment Dashboard**: View all investments with details such as ticker,
+  type, stock exchange, currency, and current value.
 - **Investment CRUD Operations**: Create, update, and delete investments.
 - **Authentication**: User authentication using secure sessions.
-- **API for Mobile App**: A RESTful API built using Prisma and exposed via Next.js API routes for the mobile app to consume.
+- **API for Mobile App**: A RESTful API built using Prisma and exposed via
+  Next.js API routes for the mobile app to consume.
 - **Real-time Data**: Fetch live stock data for current market prices.
-- **Responsive Design**: The web interface is fully responsive, ensuring a seamless experience on both desktop and mobile devices.
+- **Responsive Design**: The web interface is fully responsive, ensuring a
+  seamless experience on both desktop and mobile devices.
 
 ## Tech Stack
 
@@ -20,7 +27,8 @@ This repository contains the Next.js implementation of **InvestTrack**, an inves
 - **Database**: PostgreSQL (managed via Prisma ORM).
 - **Authentication**: NextAuth.js for secure login sessions.
 - **Stock Data**: Integrated with a stock market API.
-- **Mobile Integration**: Provides a RESTful API to support mobile app functionality.
+- **Mobile Integration**: Provides a RESTful API to support mobile app
+  functionality.
 
 ## Prerequisites
 
@@ -48,7 +56,7 @@ npm install
 
 3. Set Up the Database:
 
-You need to set up a PostgreSQL database for the app. Create an `.env` file in 
+You need to set up a PostgreSQL database for the app. Create an `.env` file in
 the root directory and add your database URL:
 
 ```bash
@@ -106,7 +114,7 @@ GET /api/investments
 
 ## Mobile App Integration
 
-The Mobile app consumes the API provided by this Next.js app. Ensure that the 
+The Mobile app consumes the API provided by this Next.js app. Ensure that the
 Mobile app is configured to make requests to the correct API endpoint (http://localhost:3000 during development or the production URL).
 
 ## Project Structure

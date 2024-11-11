@@ -178,14 +178,6 @@ const currencies = [
     WithdrawalDate: null,
   },
   {
-    Entity: "ANTARCTICA",
-    Currency: "No universal currency",
-    AlphabeticCode: null,
-    NumericCode: null,
-    MinorUnit: null,
-    WithdrawalDate: null,
-  },
-  {
     Entity: "ANTIGUA AND BARBUDA",
     Currency: "East Caribbean Dollar",
     AlphabeticCode: "XCD",
@@ -2251,14 +2243,7 @@ const currencies = [
     MinorUnit: 2,
     WithdrawalDate: null,
   },
-  {
-    Entity: "PALESTINE, STATE OF",
-    Currency: "No universal currency",
-    AlphabeticCode: null,
-    NumericCode: null,
-    MinorUnit: null,
-    WithdrawalDate: null,
-  },
+
   {
     Entity: "PANAMA",
     Currency: "Balboa",
@@ -2715,14 +2700,6 @@ const currencies = [
     NumericCode: 991,
     MinorUnit: null,
     WithdrawalDate: "1995-03",
-  },
-  {
-    Entity: "SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS",
-    Currency: "No universal currency",
-    AlphabeticCode: null,
-    NumericCode: null,
-    MinorUnit: null,
-    WithdrawalDate: null,
   },
   {
     Entity: "SOUTH SUDAN",
