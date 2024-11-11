@@ -52,7 +52,7 @@ export default async function InvestmentResults({
       type ? { type } : {},
       currency ? { currency } : {},
       stockExchange ? { stockExchange } : {},
-      isPurchased ? { isPurchased: true } : {},
+      isPurchased === undefined ? {} : { isPurchased },
     ],
   };
 
