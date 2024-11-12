@@ -3,7 +3,7 @@
 import FormSubmitButton from "@/components/FormSubmitButton";
 import { Investment } from "@prisma/client";
 import { useFormState } from "react-dom";
-import { deleteInvestment } from "./actions";
+import { deleteInvestment } from "../actions";
 import { useRouter } from "next/navigation";
 
 interface InvestmentActionsProps {

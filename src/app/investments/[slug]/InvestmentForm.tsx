@@ -20,7 +20,7 @@ import {
 import Select from "@/components/ui/select";
 import { investmentTypes, stockExchangeTypes } from "@/lib/investment-types";
 import currencies from "@/lib/currency-list";
-import { updateInvestment } from "./actions";
+import { updateInvestment } from "../actions";
 import FormSubmitButton from "@/components/FormSubmitButton";
 import { Investment } from "@prisma/client";
 import { Loader2 } from "lucide-react";

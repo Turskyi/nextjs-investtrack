@@ -1,16 +1,17 @@
 import companyLogoPlaceholder from "@/assets/company-logo-placeholder.jpeg";
-import { relativeDate } from "@/lib/utils";
+import { formatMoney, relativeDate } from "@/lib/utils";
 import { Investment } from "@prisma/client";
-import { Briefcase, Clock, Globe2, MapPin } from "lucide-react";
+import { Briefcase, Clock, MapPin, TrendingUp } from "lucide-react";
 import Image from "next/image";
-import Badge from "./Badge";
+import Badge from "../../components/Badge";
 import { investmentTypeColors } from "@/lib/investment-types";
+import { fetchStockPrice } from "./actions";
 
 interface InvestmentListItemProps {
   investment: Investment;
 }
 
-export default function InvestmentListItem({
+export default async function InvestmentListItem({
   investment: {
     ticker,
     companyName,
@@ -24,6 +25,15 @@ export default function InvestmentListItem({
 }: InvestmentListItemProps) {
   // Get the color for the current investment type.
   const typeColor = investmentTypeColors[type] || "gray";
+
+  const currentPrice = await fetchStockPrice(ticker);
+  const totalValueCurrent = quantity * (currentPrice || 0);
+  const purchasePrice = await fetchStockPrice(ticker, purchaseDate);
+  const totalValuePurchase = quantity * (purchasePrice || 0);
+  const gainOrLoss = totalValueCurrent - totalValuePurchase;
+  const gainOrLossPercentage = totalValuePurchase
+    ? ((gainOrLoss / totalValuePurchase) * 100).toFixed(2)
+    : "0.00";
 
   return (
     <article className="flex gap-3 rounded-lg border p-5 hover:bg-muted/60">
@@ -48,10 +58,16 @@ export default function InvestmentListItem({
             <MapPin size={16} className="shrink-0" />
             {stockExchange}
           </p>
-          <p className="flex items-center gap-1.5">
-            <Globe2 size={16} className="shrink-0" />
-            {currency || "USD"}
-          </p>
+          {quantity > 0 && (
+            <p
+              className={`flex items-center gap-1.5 ${gainOrLoss >= 0 ? "text-green-500" : "text-red-500"}`}
+            >
+              <TrendingUp size={16} className="shrink-0" />
+              Gain/Loss: {formatMoney(gainOrLoss, currency)} (
+              {gainOrLossPercentage}%)
+            </p>
+          )}
+
           <p className="flex items-center gap-1.5">
             {" "}
             <Briefcase size={16} className="shrink-0" /> Quantity: {quantity}{" "}
@@ -67,6 +83,7 @@ export default function InvestmentListItem({
       <div className="hidden shrink-0 flex-col items-end justify-between sm:flex">
         {/* Render the Badge with the color. */}
         <Badge color={typeColor}>{type}</Badge>
+
         <span className="flex items-center gap-1.5 text-muted-foreground">
           <Clock size={16} />
           {purchaseDate ? relativeDate(purchaseDate) : "Not yet purchased"}

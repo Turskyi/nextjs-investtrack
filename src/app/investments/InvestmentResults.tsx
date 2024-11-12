@@ -4,7 +4,7 @@ import { InvestmentFilterValues } from "@/lib/validation";
 import { Prisma } from "@prisma/client";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import InvestmentListItem from "../../components/InvestmentListItem";
+import InvestmentListItem from "./InvestmentListItem";
 import { auth } from "@clerk/nextjs/server";
 
 // Inspired by the "JobResults" component from the Next.js Job Board project by CodingInFlow.

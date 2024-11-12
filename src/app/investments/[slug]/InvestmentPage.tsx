@@ -16,7 +16,7 @@ import {
   fetchExchangeRate,
   fetchPriceChange,
   fetchStockPrice,
-} from "./actions";
+} from "../actions";
 
 interface InvestmentPageProps {
   investment: Investment;
