@@ -22,12 +22,12 @@ const colorPalette = [
   "#1F77B4", // Steel Blue
   "#FF7F0E", // Dark Orange
   "#2CA02C", // Forest Green
-  "#FFC0CB", // Pink
+  "BCBD22", // Olive Green
   "#880808", // Red
   "#808080", // Gray
   "#000000", // Black
   "#7F7F7F", // Middle Gray
-  "#BCBD22", // Olive Green
+  "#FFC0CB", // Pink
   "#17BECF", // Bright Cyan
   "#1F78B4", // Dodger Blue
   "#FF9896", // Light Coral

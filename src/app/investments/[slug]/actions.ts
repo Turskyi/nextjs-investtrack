@@ -125,7 +125,10 @@ export async function fetchChangePercentage(ticker: string) {
   }
 }
 
-export async function fetchStockPrice(ticker: string, date?: Date | string | null) {
+export async function fetchStockPrice(
+  ticker: string,
+  date?: Date | string | null,
+) {
   try {
     // If a date is provided, format it as a string (YYYY-MM-DDTHH:MM:SS).
     const formattedDate =
@@ -138,7 +141,7 @@ export async function fetchStockPrice(ticker: string, date?: Date | string | nul
       ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/finance?ticker=${ticker}&date=${formattedDate}`
       : `${process.env.NEXT_PUBLIC_BASE_URL}/api/finance?ticker=${ticker}`;
 
-    const res = await fetch(url);
+    const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) throw new Error("Failed to fetch stock price 😔.");
 
     const data = await res.json();
