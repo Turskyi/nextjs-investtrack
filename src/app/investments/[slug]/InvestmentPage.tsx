@@ -167,7 +167,7 @@ export default async function InvestmentPage({
           <p className="flex items-center gap-1.5">
             {" "}
             <TrendingUp size={16} className="shrink-0" /> Price Change:{" "}
-            {priceChange ? `${priceChange.toFixed(2)}%` : "N/A"}{" "}
+            {priceChange ? `${priceChange.toFixed(2)}` : "N/A"}{" "}
           </p>
           <p className="flex items-center gap-1.5">
             <TrendingUp size={16} className="shrink-0" />

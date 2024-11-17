@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import InvestmentListItem from "./InvestmentListItem";
 import { auth } from "@clerk/nextjs/server";
+import SuggestedInvestmentsButton from "./SuggestedInvestmentsButton";
 
 // Inspired by the "JobResults" component from the Next.js Job Board project by CodingInFlow.
 // Source: https://github.com/codinginflow/nextjs-job-board/blob/Final-Project/src/components/JobResults.tsx
@@ -72,28 +73,28 @@ export default async function InvestmentResults({
 
   return (
     <div className="grow space-y-4">
-      {investments.map((investment) => (
-        <Link
-          key={investment.id}
-          href={`/investments/${investment.slug}`}
-          className="block"
-        >
-          <InvestmentListItem investment={investment} />
-        </Link>
-      ))}
-      {investments.length === 0 && (
-        <p className="m-auto text-center">
-          No investments found. You may not have created any investments yet, or
-          your search filters are too narrow.
-        </p>
-      )}
-
-      {investments.length > 0 && (
-        <Pagination
-          currentPage={page}
-          totalPages={Math.ceil(totalResults / investmentsPerPage)}
-          filterValues={filterValues}
-        />
+      {investments.length === 0 ? (
+        <div className="m-auto text-center">
+          <p>No investments found. You may not have created any investments yet, or your search filters are too narrow.</p>
+          <SuggestedInvestmentsButton userId={userId} />
+        </div>
+      ) : (
+        <>
+          {investments.map((investment) => (
+            <Link
+              key={investment.id}
+              href={`/investments/${investment.slug}`}
+              className="block"
+            >
+              <InvestmentListItem investment={investment} />
+            </Link>
+          ))}
+          <Pagination
+            currentPage={page}
+            totalPages={Math.ceil(totalResults / investmentsPerPage)}
+            filterValues={filterValues}
+          />
+        </>
       )}
     </div>
   );

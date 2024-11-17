@@ -56,6 +56,9 @@ model Investment {
   // Auto-updates whenever the investment is modified.
   updatedAt            DateTime  @updatedAt
 
+  // Composite unique constraint on userId and ticker 
+  @@unique([userId, ticker])
+
   // Maps to the "investments" table in the database.
   @@map("investments")
 }

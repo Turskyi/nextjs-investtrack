@@ -3,7 +3,8 @@
 
 # InvestTrack - Web
 
-This repository contains the Next.js implementation of **InvestTrack**, an investment tracking platform. The app serves as both a web interface for users
+This repository contains the Next.js implementation of **InvestTrack**, an
+investment tracking platform. The app serves as both a web interface for users
 and a backend API for a mobile application. InvestTrack helps users manage and
 track their investments across various stocks and provides essential metrics
 such as gains, losses, and current market prices.
@@ -140,7 +141,8 @@ src/
 
 ## Contributing
 
-Feel free to submit issues or pull requests if you'd like to contribute to the project.
+Feel free to submit issues or pull requests if you'd like to contribute to the
+project.
 
 1. Fork the repository
 2. Create a new feature branch (git checkout -b feature/your-feature-name)
@@ -160,10 +162,9 @@ repository.
 
 ## Credits
 
-This project is based on the
-[Learn Next.js 14 Server Actions With This One Project (UseFormStatus,
-UseFormState, Error Handling)](https://youtu.be/XD5FpbVpWzk?si=V2BUShLowZq3xKAC)
-by [Coding in Flow](https://github.com/codinginflow) YouTube channel.
-All credit goes to the original author
-[Florian Walther](https://github.com/florianwalther-private).
-I only followed along and made some minor changes.
+This project is based on the following resources:
+
+* **Tutorial:** [Learn Next.js 14 Server Actions With This One Project (UseFormStatus, UseFormState, Error Handling)](https://youtu.be/XD5FpbVpWzk?si=V2BUShLowZq3xKAC) by **Coding in Flow** YouTube channel.
+* **Project Repository:** [nextjs-job-board](https://github.com/codinginflow/nextjs-job-board/tree/Final-Project) (used in the tutorial) by **Coding in Flow**.
+
+All credit goes to the original author, **Florian Walther** (https://github.com/florianwalther-private). I only followed along and made some minor changes.

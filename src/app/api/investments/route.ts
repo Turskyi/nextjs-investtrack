@@ -66,11 +66,11 @@ export async function POST(req: Request) {
       ticker,
       type,
       companyName,
+      companyLogoUrl,
       stockExchange,
       currency,
       description,
       quantity,
-      companyLogoUrl,
       purchaseDate,
     } = parseResult.data;
 
@@ -140,10 +140,10 @@ export async function PUT(req: Request) {
       type,
       companyName,
       companyLogoUrl,
-      description,
-      quantity,
       stockExchange,
       currency,
+      description,
+      quantity,
       slug,
       purchaseDate,
     } = parseResult.data;
