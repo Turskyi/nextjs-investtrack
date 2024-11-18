@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { APP_NAME } from "../../constants";
 import { useRouter } from "next/navigation";
+import Menu from "@/app/investments/Menu";
 
 export default function Navbar() {
   const { user, signOut } = useClerk();
@@ -41,6 +42,8 @@ export default function Navbar() {
         <Button asChild>
           <Link href="/investments/new">Post an investment</Link>
         </Button>
+
+        {user && <Menu userId={user.id} />}
       </nav>
     </header>
   );

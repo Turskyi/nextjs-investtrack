@@ -95,22 +95,6 @@ const placeholderInvestments = [
     isPurchased: false,
   },
 
-  // American Airlines Group Inc
-  {
-    slug: "american-airlines-group-inc",
-    ticker: "AAL",
-    type: "Transportation",
-    companyName: "American Airlines Group Inc",
-    stockExchange: "NASDAQ",
-    currency: "USD",
-    quantity: 0,
-    description: `
-      **About American Airlines**
-      American Airlines Group Inc. is a leading global airline offering extensive domestic and international routes. It is a key player in the aviation industry, known for its customer-centric services.
-    `,
-    isPurchased: false,
-  },
-
   // Exxon Mobil Corp
   {
     slug: "exxon-mobil-corp",
@@ -715,22 +699,6 @@ const placeholderInvestments = [
     isPurchased: false,
   },
 
-  // Boeing Co
-  {
-    slug: "boeing-co",
-    ticker: "BA",
-    type: "Aerospace",
-    companyName: "Boeing Co",
-    stockExchange: "NYSE",
-    currency: "USD",
-    quantity: 0,
-    description: `
-        **About Boeing**
-        Boeing Company is a leading aerospace company, manufacturing commercial jetliners, defense, space, and security systems worldwide.
-      `,
-    isPurchased: false,
-  },
-
   // Bombardier, Inc. Class B
   {
     slug: "bombardier-inc-class-b",
@@ -1062,22 +1030,6 @@ const placeholderInvestments = [
     description: `
       **About Moderna**
       Moderna is a biotechnology company pioneering messenger RNA (mRNA) therapeutics and vaccines to transform the way diseases are treated and prevented.
-    `,
-    isPurchased: false,
-  },
-
-  // Novartis AG
-  {
-    slug: "novartis-ag",
-    ticker: "NVS",
-    type: "Pharmaceuticals",
-    companyName: "Novartis AG",
-    stockExchange: "NYSE",
-    currency: "USD",
-    quantity: 0,
-    description: `
-      **About Novartis**
-      Novartis AG is a global healthcare company providing innovative medicines to improve health outcomes and deliver solutions in oncology, immunology, and more.
     `,
     isPurchased: false,
   },

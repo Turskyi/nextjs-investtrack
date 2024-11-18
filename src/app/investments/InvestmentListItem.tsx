@@ -1,7 +1,12 @@
 import companyLogoPlaceholder from "@/assets/company-logo-placeholder.jpeg";
 import { formatMoney, relativeDate } from "@/lib/utils";
 import { Investment } from "@prisma/client";
-import { Briefcase, Clock, MapPin, TrendingUp } from "lucide-react";
+import {
+  Banknote,
+  Briefcase,
+  Clock,
+  TrendingUp,
+} from "lucide-react";
 import Image from "next/image";
 import Badge from "../../components/Badge";
 import { investmentTypeColors } from "@/lib/investment-types";
@@ -16,7 +21,6 @@ export default async function InvestmentListItem({
     ticker,
     companyName,
     type,
-    stockExchange,
     currency,
     companyLogoUrl,
     purchaseDate,
@@ -54,10 +58,13 @@ export default async function InvestmentListItem({
             <Briefcase size={16} className="shrink-0" />
             {type}
           </p>
-          <p className="flex items-center gap-1.5">
-            <MapPin size={16} className="shrink-0" />
-            {stockExchange}
-          </p>
+          {quantity > 0 && (
+            <p className="flex items-center gap-1.5">
+              <Banknote size={16} className="shrink-0" />
+              Purchase Price:{" "}
+              {purchasePrice ? formatMoney(purchasePrice, currency) : "N/A"}
+            </p>
+          )}
           {quantity > 0 && (
             <p
               className={`flex items-center gap-1.5 ${gainOrLoss >= 0 ? "text-green-500" : "text-red-500"}`}
@@ -67,6 +74,12 @@ export default async function InvestmentListItem({
               {gainOrLossPercentage}%)
             </p>
           )}
+          <p className="flex items-center gap-1.5">
+            <Clock size={16} className="shrink-0" />
+            {currentPrice !== null
+              ? `Current Price: ${formatMoney(currentPrice, currency)}`
+              : "Price unavailable. Under maintenance"}
+          </p>
 
           <p className="flex items-center gap-1.5">
             {" "}

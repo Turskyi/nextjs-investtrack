@@ -36,11 +36,11 @@ export default async function InvestmentResults({
   const searchFilter: Prisma.InvestmentWhereInput = searchString
     ? {
         OR: [
-          { ticker: { search: searchString } },
-          { companyName: { search: searchString } },
-          { type: { search: searchString } },
-          { stockExchange: { search: searchString } },
-          { currency: { search: searchString } },
+          { ticker: { contains: searchString, mode: "insensitive" } },
+          { companyName: { contains: searchString, mode: "insensitive" } },
+          { type: { contains: searchString, mode: "insensitive" } },
+          { stockExchange: { contains: searchString, mode: "insensitive" } },
+          { currency: { contains: searchString, mode: "insensitive" } },
         ],
       }
     : {};
@@ -59,7 +59,7 @@ export default async function InvestmentResults({
 
   const investmentsPromise = prisma.investment.findMany({
     where,
-    orderBy: { createdAt: "desc" },
+    orderBy: { createdAt: "asc" },
     take: investmentsPerPage,
     skip,
   });
@@ -75,7 +75,10 @@ export default async function InvestmentResults({
     <div className="grow space-y-4">
       {investments.length === 0 ? (
         <div className="m-auto text-center">
-          <p>No investments found. You may not have created any investments yet, or your search filters are too narrow.</p>
+          <p>
+            No investments found. You may not have created any investments yet,
+            or your search filters are too narrow.
+          </p>
           <SuggestedInvestmentsButton userId={userId} />
         </div>
       ) : (
