@@ -1,12 +1,7 @@
 import companyLogoPlaceholder from "@/assets/company-logo-placeholder.jpeg";
 import { formatMoney, relativeDate } from "@/lib/utils";
 import { Investment } from "@prisma/client";
-import {
-  Banknote,
-  Briefcase,
-  Clock,
-  TrendingUp,
-} from "lucide-react";
+import { Banknote, Briefcase, Clock, TrendingUp } from "lucide-react";
 import Image from "next/image";
 import Badge from "../../components/Badge";
 import { investmentTypeColors } from "@/lib/investment-types";
@@ -81,10 +76,12 @@ export default async function InvestmentListItem({
               : "Price unavailable. Under maintenance"}
           </p>
 
-          <p className="flex items-center gap-1.5">
-            {" "}
-            <Briefcase size={16} className="shrink-0" /> Quantity: {quantity}{" "}
-          </p>
+          {quantity > 0 && (
+            <p className="flex items-center gap-1.5">
+              {" "}
+              <Briefcase size={16} className="shrink-0" /> Quantity: {quantity}{" "}
+            </p>
+          )}
           <p className="flex items-center gap-1.5 sm:hidden">
             <Clock size={16} className="shrink-0" />
             {purchaseDate

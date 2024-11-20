@@ -24,21 +24,22 @@ export async function GET(request: NextRequest) {
 
   if (page) {
     const currentPage = parseInt(page);
-    const pageSize = 8;
+    const pageSize = 6;
 
     const totalItemCount = await prisma.investment.count();
     const totalPages = Math.ceil(totalItemCount / pageSize);
+
     const investments = await prisma.investment.findMany({
-      orderBy: { id: "desc" },
-      skip: (currentPage - 1) * pageSize,
-      take: pageSize,
       where: { userId },
+      orderBy: { id: "asc" },
+      take: pageSize,
+      skip: (currentPage - 1) * pageSize,
     });
 
     return NextResponse.json({ investments: investments, totalPages });
   } else {
     const allInvestments = await prisma.investment.findMany({
-      orderBy: { id: "desc" },
+      orderBy: { id: "asc" },
       where: { userId },
     });
 
