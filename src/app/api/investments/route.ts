@@ -26,7 +26,10 @@ export async function GET(request: NextRequest) {
     const currentPage = parseInt(page);
     const pageSize = 6;
 
-    const totalItemCount = await prisma.investment.count();
+    const totalItemCount = await prisma.investment.count({
+      where: { userId },
+    });
+
     const totalPages = Math.ceil(totalItemCount / pageSize);
 
     const investments = await prisma.investment.findMany({
