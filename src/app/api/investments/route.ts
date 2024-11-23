@@ -12,6 +12,7 @@ export async function GET(request: NextRequest) {
   const url = new URL(request.nextUrl);
 
   const page = url.searchParams.get("page");
+  const itemsPerPage = url.searchParams.get("itemsPerPage");
 
   const userId = url.searchParams.get("userId")?.trim() || auth().userId;
 
@@ -24,7 +25,8 @@ export async function GET(request: NextRequest) {
 
   if (page) {
     const currentPage = parseInt(page);
-    const pageSize = 6;
+    // Fallback to 6 if itemsPerPage is not provided.
+    const pageSize = itemsPerPage ? parseInt(itemsPerPage) : 6;
 
     const totalItemCount = await prisma.investment.count({
       where: { userId },
@@ -39,7 +41,11 @@ export async function GET(request: NextRequest) {
       skip: (currentPage - 1) * pageSize,
     });
 
-    return NextResponse.json({ investments: investments, totalPages });
+    return NextResponse.json({
+      investments: investments,
+      totalPages,
+      currentPage,
+    });
   } else {
     const allInvestments = await prisma.investment.findMany({
       orderBy: { createdAt: "desc" },
