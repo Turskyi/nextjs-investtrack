@@ -24,7 +24,6 @@ export default async function InvestmentListItem({
 }: InvestmentListItemProps) {
   // Get the color for the current investment type.
   const typeColor = investmentTypeColors[type] || "gray";
-
   const currentPrice = await fetchStockPrice(ticker);
   const totalValueCurrent = quantity * (currentPrice || 0);
   const purchasePrice = await fetchStockPrice(ticker, purchaseDate);
@@ -35,7 +34,7 @@ export default async function InvestmentListItem({
     : "0.00";
 
   return (
-    <article className="flex gap-3 rounded-lg border p-5 hover:bg-muted/60">
+    <article className="flex gap-3 rounded-lg border p-5 shadow-lg transition-all duration-300 ease-in-out hover:bg-muted/60">
       <Image
         src={companyLogoUrl || companyLogoPlaceholder}
         alt={`${companyName} logo`}
@@ -45,7 +44,7 @@ export default async function InvestmentListItem({
       />
       <div className="flex-grow space-y-3">
         <div>
-          <h2 className="text-xl font-medium">{ticker}</h2>
+          <h2 className="text-2xl font-bold">{ticker}</h2>
           <p className="text-muted-foreground">{companyName}</p>
         </div>
         <div className="text-muted-foreground">
@@ -75,7 +74,6 @@ export default async function InvestmentListItem({
               ? `Current Price: ${formatMoney(currentPrice, currency)}`
               : "Price unavailable. Under maintenance"}
           </p>
-
           {quantity > 0 && (
             <p className="flex items-center gap-1.5">
               {" "}
@@ -90,13 +88,12 @@ export default async function InvestmentListItem({
           </p>
         </div>
       </div>
-      <div className="hidden shrink-0 flex-col items-end justify-between sm:flex">
+      <div className="hidden flex-col items-end justify-between sm:flex">
         {/* Render the Badge with the color. */}
         <Badge color={typeColor}>{type}</Badge>
-
         <span className="flex items-center gap-1.5 text-muted-foreground">
           <Clock size={16} />
-          {purchaseDate ? relativeDate(purchaseDate) : "Not yet purchased"}
+          {purchaseDate ? relativeDate(purchaseDate) : "Not yet purchased."}
         </span>
       </div>
     </article>
