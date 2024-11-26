@@ -63,8 +63,14 @@ export default function InvestmentForm({
     investmentId: number,
   ) {
     // Format `purchaseDate` to full ISO-8601 if it exists.
-    if (values.purchaseDate) {
-      values.purchaseDate = formatDateToISO(values.purchaseDate);
+    if (
+      values.purchaseDate &&
+      !isNaN(new Date(values.purchaseDate).getTime())
+    ) {
+      values.purchaseDate = formatDateToISO(values.purchaseDate) ?? "";
+    } else {
+      console.log("Invalid or missing purchase date");
+      values.purchaseDate = "";
     }
     const formData = new FormData();
 

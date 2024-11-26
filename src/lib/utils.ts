@@ -17,7 +17,15 @@ export function relativeDate(from: Date) {
   return formatDistanceToNowStrict(from, { addSuffix: true });
 }
 
-export const formatDateToISO = (date: string) => new Date(date).toISOString();
+export const formatDateToISO = (date: string): string | null => {
+  const parsedDate = new Date(date);
+  // Check if the parsed date is valid.
+  if (isNaN(parsedDate.getTime())) {
+    console.error('Invalid date:', date); 
+    return null;
+  }
+  return parsedDate.toISOString();
+};
 
 export const formatDateForInput = (date: Date | string) => {
   const d = typeof date === "string" ? new Date(date) : date;
