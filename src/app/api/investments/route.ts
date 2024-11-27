@@ -141,8 +141,11 @@ export async function PUT(req: Request) {
     const parseResult = updateInvestmentSchema.safeParse(body);
 
     if (!parseResult.success) {
-      console.error(parseResult.error);
-      return Response.json({ error: "Invalid input (≖ ͜ʖ≖)" }, { status: 400 });
+      console.error("Validation Errors:", parseResult.error.flatten());
+      return Response.json(
+        { error: "Invalid input (≖ ͜ʖ≖)", details: parseResult.error.flatten() },
+        { status: 400 },
+      );
     }
 
     const {

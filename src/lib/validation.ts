@@ -74,7 +74,7 @@ const baseInvestmentSchema = tickerSchema
     companyLogoUrl: companyLogoSchema,
     description: z.string().max(5000).optional(),
     slug: z.string().optional(),
-    purchaseDate: z.string().optional(),
+    purchaseDate: z.string().nullable().optional(),
   });
 
 export const createInvestmentSchema = baseInvestmentSchema
@@ -103,7 +103,15 @@ export const investmentFilterSchema = z.object({
 });
 
 // Use `partial()` on the non-refined `baseInvestmentSchema`.
-export const updateInvestmentSchema = baseInvestmentSchema.partial();
+export const updateInvestmentSchema = baseInvestmentSchema.partial().extend({
+  totalValueOnPurchase: z.number().nullable().optional(),
+  isPurchased: z.boolean().optional(),
+  totalCurrentValue: z.number().nullable().optional(),
+  gainOrLossCad: z.number().nullable().optional(),
+  gainOrLossUsd: z.number().nullable().optional(),
+  createdAt: z.string().nullable().optional(),
+  updatedAt: z.string().nullable().optional(),
+});
 
 // Types.
 export type CreateInvestmentValues = z.infer<typeof createInvestmentSchema>;
