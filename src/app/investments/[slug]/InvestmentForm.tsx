@@ -281,7 +281,8 @@ export default function InvestmentForm({
                           type="datetime-local"
                           placeholder="Select purchase date and time"
                           {...field}
-                          defaultValue={initialValues.purchaseDate}
+                          defaultValue={initialValues.purchaseDate ?? ""}
+                          value={field.value ?? ""}
                         />
                       </FormControl>
                       <FormMessage />
