@@ -246,6 +246,7 @@ export default function NewInvestmentForm() {
                           type="datetime-local"
                           placeholder="Select purchase date and time"
                           {...field}
+                          value={field.value ?? ""}
                         />
                       </FormControl>
                       <FormMessage />
