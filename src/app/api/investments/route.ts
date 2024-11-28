@@ -138,6 +138,11 @@ export async function PUT(req: Request) {
   try {
     const body = await req.json();
 
+    // Preprocess `quantity` to ensure it's a string before validation.
+    if (body.quantity !== undefined && typeof body.quantity !== "string") {
+      body.quantity = String(body.quantity);
+    }
+
     const parseResult = updateInvestmentSchema.safeParse(body);
 
     if (!parseResult.success) {
