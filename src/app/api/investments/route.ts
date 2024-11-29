@@ -153,6 +153,18 @@ export async function PUT(req: Request) {
       );
     }
 
+    let { purchaseDate } = parseResult.data;
+
+    // Ensure purchaseDate is in ISO 8601 format.
+    if (purchaseDate && typeof purchaseDate === "string") {
+      const parsedDate = new Date(purchaseDate);
+      if (isNaN(parsedDate.getTime())) {
+        return Response.json({ error: "Invalid date format" }, { status: 400 });
+      }
+      // Convert to ISO string if the date is valid.
+      purchaseDate = parsedDate.toISOString();
+    }
+
     const {
       ticker,
       type,
@@ -163,7 +175,6 @@ export async function PUT(req: Request) {
       description,
       quantity,
       slug,
-      purchaseDate,
     } = parseResult.data;
 
     const investment = await prisma.investment.findUnique({ where: { slug } });
