@@ -47,9 +47,11 @@ export default function NewInvestmentForm() {
   async function onSubmit(values: CreateInvestmentValues) {
     const formData = new FormData();
 
+    // Safely convert all values to strings before appending to FormData.
     Object.entries(values).forEach(([key, value]) => {
-      if (value) {
-        formData.append(key, value);
+      if (value !== undefined && value !== null) {
+        // Convert to string.
+        formData.append(key, value.toString());
       }
     });
 
