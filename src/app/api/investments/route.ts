@@ -86,6 +86,8 @@ export async function POST(req: Request) {
       quantity,
       purchaseDate,
       currentPrice,
+      purchasePrice,
+      gainOrLossUsd,
     } = parseResult.data;
 
     const userId =
@@ -122,6 +124,8 @@ export async function POST(req: Request) {
         currency: typeof currency === "string" ? currency : undefined,
         purchaseDate: formattedPurchaseDate,
         currentPrice: currentPrice,
+        purchasePrice,
+        gainOrLossUsd,
         isPurchased:
           quantity !== "0" &&
           quantity !== "" &&
