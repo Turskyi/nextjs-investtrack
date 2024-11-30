@@ -60,14 +60,17 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
+    // Preprocess `quantity` to ensure it's a string before validation.
+    if (body.quantity !== undefined && typeof body.quantity !== "string") {
+      body.quantity = String(body.quantity);
+    }
+
     const parseResult = createInvestmentSchema.safeParse(body);
 
     if (!parseResult.success) {
-      console.error(parseResult.error);
+      console.error("Validation Errors:", parseResult.error.flatten());
       return Response.json(
-        {
-          error: "Invalid input (*′☉.̫☉)",
-        },
+        { error: "Invalid input (≖ ͜ʖ≖)", details: parseResult.error.flatten() },
         { status: 400 },
       );
     }
@@ -82,6 +85,7 @@ export async function POST(req: Request) {
       description,
       quantity,
       purchaseDate,
+      currentPrice,
     } = parseResult.data;
 
     const userId =
@@ -117,6 +121,7 @@ export async function POST(req: Request) {
         // Handle optional currency field.
         currency: typeof currency === "string" ? currency : undefined,
         purchaseDate: formattedPurchaseDate,
+        currentPrice: currentPrice,
         isPurchased:
           quantity !== "0" &&
           quantity !== "" &&

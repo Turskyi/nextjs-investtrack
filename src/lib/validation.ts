@@ -75,6 +75,7 @@ const baseInvestmentSchema = tickerSchema
     description: z.string().max(5000).optional(),
     slug: z.string().optional(),
     purchaseDate: z.string().nullable().optional(),
+    currentPrice: z.number().nullable().optional(),
   });
 
 export const createInvestmentSchema = baseInvestmentSchema
@@ -111,7 +112,6 @@ export const updateInvestmentSchema = baseInvestmentSchema.partial().extend({
   gainOrLossUsd: z.number().nullable().optional(),
   createdAt: z.string().nullable().optional(),
   updatedAt: z.string().nullable().optional(),
-  currentPrice: z.number().optional(), 
 });
 
 // Types.
