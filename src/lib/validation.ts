@@ -73,7 +73,7 @@ const baseInvestmentSchema = tickerSchema
   .extend({
     companyLogoUrl: companyLogoSchema,
     description: z.string().max(5000).optional(),
-    slug: z.string().optional(),
+    slug: z.string().nullable().optional(),
     purchaseDate: z.string().nullable().optional(),
     currentPrice: z.number().nullable().optional(),
   });
