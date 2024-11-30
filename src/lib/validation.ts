@@ -111,6 +111,7 @@ export const updateInvestmentSchema = baseInvestmentSchema.partial().extend({
   gainOrLossUsd: z.number().nullable().optional(),
   createdAt: z.string().nullable().optional(),
   updatedAt: z.string().nullable().optional(),
+  currentPrice: z.number().optional(), 
 });
 
 // Types.

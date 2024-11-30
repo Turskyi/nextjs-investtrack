@@ -175,6 +175,7 @@ export async function PUT(req: Request) {
       description,
       quantity,
       slug,
+      currentPrice,
     } = parseResult.data;
 
     const investment = await prisma.investment.findUnique({ where: { slug } });
@@ -211,6 +212,7 @@ export async function PUT(req: Request) {
         stockExchange: stockExchange ?? null,
         currency: currency ?? undefined,
         purchaseDate: purchaseDate,
+        currentPrice: currentPrice ?? investment.currentPrice,
         isPurchased:
           quantity !== "0" &&
           quantity !== "" &&

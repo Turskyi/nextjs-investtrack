@@ -31,6 +31,8 @@ model Investment {
   currency             String    @default("USD")
   // Optional: Additional details about the investment.
   description          String?
+  // Current price of the stock (float to allow decimal values).
+  currentPrice         Float?
   // Name of the company or investment entity.
   companyName          String
   // Number of shares purchased.
@@ -55,9 +57,6 @@ model Investment {
   createdAt            DateTime  @default(now())
   // Auto-updates whenever the investment is modified.
   updatedAt            DateTime  @updatedAt
-
-  // Composite unique constraint on userId and ticker 
-  @@unique([userId, ticker])
 
   // Maps to the "investments" table in the database.
   @@map("investments")
