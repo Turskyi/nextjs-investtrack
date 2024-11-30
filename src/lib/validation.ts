@@ -73,12 +73,17 @@ const baseInvestmentSchema = tickerSchema
   .extend({
     companyLogoUrl: companyLogoSchema,
     description: z.string().max(5000).optional(),
-    slug: z.string().nullable().optional(),
+    // No `nullable()` here.
+    slug: z.string().optional(),
     purchaseDate: z.string().nullable().optional(),
     currentPrice: z.number().nullable().optional(),
   });
 
 export const createInvestmentSchema = baseInvestmentSchema
+  .extend({
+    // Nullable here.
+    slug: z.string().nullable().optional(),
+  })
   .refine(
     (data) =>
       !data.stockExchange || stockExchangeTypes.includes(data.stockExchange),
