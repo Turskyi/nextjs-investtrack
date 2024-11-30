@@ -74,11 +74,14 @@ export default function InvestmentForm({
     }
     const formData = new FormData();
 
+    // Safely convert all values to strings before appending to FormData.
     Object.entries(values).forEach(([key, value]) => {
-      if (value) {
-        formData.append(key, value);
+      if (value !== undefined && value !== null) {
+         // Convert to string.
+        formData.append(key, value.toString());
       }
     });
+
     // Append investmentId to the formData.
     formData.append("investmentId", investmentId.toString());
     try {
