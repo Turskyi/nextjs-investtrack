@@ -244,7 +244,6 @@ export async function PUT(req: Request) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const body = await request.json();
     const url = new URL(request.nextUrl);
 
     const investmentId = url.searchParams.get("investmentId");
@@ -276,8 +275,7 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    const userId =
-      body.userId && body.userId.trim() ? body.userId : auth().userId;
+    const userId = url.searchParams.get("userId")?.trim() || auth().userId;
 
     if (!userId || userId !== investment.userId) {
       return Response.json(
@@ -296,8 +294,17 @@ export async function DELETE(request: NextRequest) {
     );
   } catch (error) {
     console.error(error);
+
+    // Extract error details safely.
+    const errorDetails = {
+      message:
+        error instanceof Error ? error.message : "Unknown error occurred",
+      stack: error instanceof Error ? error.stack : undefined,
+      customMessage: "Something went wrong while deleting the investment.",
+    };
+
     return Response.json(
-      { error: "Internal server error 😭" },
+      { error: "Internal server error 😭", details: errorDetails },
       { status: 500 },
     );
   }
