@@ -27,8 +27,14 @@ const investmentSchema = z.object({
     .optional(),
 });
 
+// Schema for stockExchange, making it optional.
 const stockExchangeSchema = z.object({
-  stockExchange: requiredString.optional(),
+  stockExchange: z
+    .string()
+    .optional()
+    .refine((value) => !value || stockExchangeTypes.includes(value), {
+      message: "Invalid stock exchange type ◉_◉.",
+    }),
 });
 
 // Extract valid currency codes from the currency list.
@@ -84,14 +90,6 @@ export const createInvestmentSchema = baseInvestmentSchema
     purchasePrice: z.number().nullable().optional(),
     gainOrLossUsd: z.number().nullable().optional(),
   })
-  .refine(
-    (data) =>
-      !data.stockExchange || stockExchangeTypes.includes(data.stockExchange),
-    {
-      message: "Invalid stock exchange type ◉_◉.",
-      path: ["stockExchange"],
-    },
-  )
   .refine(
     (data) => !data.currency || acceptedCurrencies.includes(data.currency),
     {

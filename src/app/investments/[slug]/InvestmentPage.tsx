@@ -187,7 +187,7 @@ export default async function InvestmentPage({
           rel="noopener noreferrer"
           className="text-blue-500 hover:underline"
         >
-          Source: companiesmarketcap.com
+          Source: https://finance.yahoo.com/markets/stocks
         </a>
       </div>
     </section>
