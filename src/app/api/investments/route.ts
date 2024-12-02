@@ -97,6 +97,18 @@ export async function POST(req: Request) {
       return Response.json({ error: "Unauthorized (Θ︹Θ)ს" }, { status: 401 });
     }
 
+    // Check if the combination already exists.
+    const existingInvestment = await prisma.investment.findFirst({
+      where: {
+        userId: userId,
+        ticker: ticker,
+      },
+    });
+
+    if (existingInvestment) {
+      throw new Error(`You already have an investment with ticker: ${ticker}`);
+    }
+
     // Generate a unique slug for the investment posting.
     const slug = `${toSlug(ticker)}-${nanoid(10)}`;
 
