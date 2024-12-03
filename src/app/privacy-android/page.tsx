@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "Privacy Policy - Android",
 };
 
-const updateDate = "November 2024";
+const updateDate = "December 2024";
 
 export default function Page() {
   return (
