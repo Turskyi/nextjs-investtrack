@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { useState } from 'react';
+import { DEVELOPER_DOMAIN } from '../../../constants';
 
 export default function InstructionPage() {
   const router = useRouter();
@@ -10,7 +11,7 @@ export default function InstructionPage() {
 
   const handleLoginRedirect = () => {
     // Redirect to the delete account page.
-    router.push("/delete-account");
+    router.push('/delete-account');
   };
 
   return (
@@ -35,6 +36,20 @@ export default function InstructionPage() {
       >
         Login to Access Delete Account Page
       </Button>
+      <p className="mt-6">
+        For more information about how we handle your data, please review our{' '}
+        <a href="/privacy" className="text-blue-500 underline">
+          Privacy Policy
+        </a>
+        . If you have any questions, contact us at{' '}
+        <a
+          href={`mailto:support@${DEVELOPER_DOMAIN}`}
+          className="text-blue-500 underline"
+        >
+          support@{DEVELOPER_DOMAIN}
+        </a>
+        .
+      </p>
     </div>
   );
 }
