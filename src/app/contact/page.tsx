@@ -15,6 +15,9 @@ export default function ContactUs() {
 
       <main className="container mx-auto">
         <h1 className="mb-6 text-4xl font-bold">Contact Us</h1>
+        <p className="mb-4 text-md text-muted-foreground">
+          Need help with InvestTrack? You can report bugs, request features, or ask for help using the following channels:
+        </p>
         <section className="mb-6">
           <p className="mb-4 text-lg">
             For inquiries or to connect with us, you can reach out through any
@@ -80,6 +83,28 @@ export default function ContactUs() {
                 Harmony Village, Finch West Avenue, North York, Ontario, M9M
                 0A3, Canada
               </span>
+            </li>
+            <li className="mb-2">
+              Telegram Support Group:{" "}
+              <Link
+                className="text-accent hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://t.me/+rkZH9QPzYOpjNTQy"
+              >
+                Join our Telegram group
+              </Link>
+            </li>
+            <li className="mb-2">
+              Developer Support Page:{" "}
+              <Link
+                className="text-accent hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://turskyi.com/#/support"
+              >
+                turskyi.com/support
+              </Link>
             </li>
           </ul>
         </section>

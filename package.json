@@ -1,6 +1,6 @@
 {
   "name": "nextjs-investtrack",
-  "version": "0.1.0",
+  "version": "1.0.5",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -49,5 +49,8 @@
     "prettier-plugin-tailwindcss": "^0.6.8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "prettier": {
+    "singleQuote": true
   }
 }
