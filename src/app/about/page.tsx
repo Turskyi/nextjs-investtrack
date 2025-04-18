@@ -1,6 +1,6 @@
-import Head from "next/head";
-import Link from "next/link";
-import { INSTAGRAM } from "../../../constants";
+import Head from 'next/head';
+import Link from 'next/link';
+import { INSTAGRAM } from '../../../constants';
 
 const calculateAge = (birthDate: string): number => {
   const today = new Date();
@@ -17,7 +17,7 @@ const calculateAge = (birthDate: string): number => {
 };
 
 export default function AboutUs() {
-  const birthDate = "2008-04-05";
+  const birthDate = '2008-04-05';
   const age = calculateAge(birthDate);
 
   return (
@@ -32,6 +32,12 @@ export default function AboutUs() {
       </Head>
 
       <main className="container mx-auto">
+        <p className="mb-4 text-lg">
+          Discover how InvestTrack can help you take control of your
+          investments. Whether you&apos;re just starting out or looking for a
+          simple tool to track your portfolio, InvestTrack is completely free
+          and easy to use on both web and mobile.
+        </p>
         <h1 className="mb-6 text-4xl font-bold">About Us</h1>
         <section className="mb-6">
           <p>
@@ -74,6 +80,48 @@ export default function AboutUs() {
             >
               @vitalikhomenkoo
             </Link>
+          </p>
+          <p className="text-lg mt-4">
+            You can create a free account by visiting{' '}
+            <Link
+              className="text-accent hover:underline"
+              href="https://invest.turskyi.com/sign-up"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              the sign-up page
+            </Link>
+            , or log in to your existing account via{' '}
+            <Link
+              className="text-accent hover:underline"
+              href="https://invest.turskyi.com/sign-in"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              the sign-in page
+            </Link>
+            .
+          </p>
+          <p className="text-lg mt-4">
+            You can also reach out or join our discussion on{' '}
+            <Link
+              className="text-accent hover:underline"
+              href="https://t.me/+rkZH9QPzYOpjNTQy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Telegram
+            </Link>
+            , or visit{' '}
+            <Link
+              className="text-accent hover:underline"
+              href="https://turskyi.com/#/support"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              the developer’s support page
+            </Link>
+            .
           </p>
         </section>
       </main>
