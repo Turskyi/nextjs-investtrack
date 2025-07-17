@@ -1,11 +1,12 @@
-import Link from "next/link";
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Footer() {
   return (
     <footer className="border-t">
-      <div className="mx-auto max-w-5xl space-y-5 px-3 py-5">
-        {/* First section: Logo and tagline */}
-        <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+      <div className="mx-auto max-w-5xl space-y-3 px-3 py-4">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-6 flex-wrap">
+          {/* First section: Logo and tagline */}
           <div className="space-y-2">
             <h3 className="text-xl font-semibold">InvestTrack</h3>
             <p className="text-sm text-muted-foreground">
@@ -14,7 +15,7 @@ export default function Footer() {
           </div>
 
           {/* Links section */}
-          <div className="flex flex-wrap gap-5 text-sm text-muted-foreground sm:justify-end">
+          <div className="flex flex-wrap gap-4 text-sm text-muted-foreground justify-center sm:justify-start">
             <Link href="/about" className="hover:underline">
               About Us
             </Link>
@@ -27,6 +28,34 @@ export default function Footer() {
             <Link href="/privacy" className="hover:underline">
               Privacy Policy
             </Link>
+          </div>
+
+          {/* App store badges */}
+          <div className="flex flex-row gap-3 justify-center sm:justify-end items-center">
+            <a
+              href="https://play.google.com/store/apps/details?id=com.turskyi.investtrack"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+                alt="Get it on Google Play"
+                width={160}
+                height={53}
+              />
+            </a>
+            <a
+              href="https://apps.apple.com/ca/app/investtrack/id6743641818"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+                alt="Download on the App Store"
+                width={133}
+                height={45}
+              />
+            </a>
           </div>
         </div>
 
