@@ -4,7 +4,7 @@ import Image from 'next/image';
 export default function Footer() {
   return (
     <footer className="border-t">
-      <div className="mx-auto max-w-5xl space-y-3 px-3 py-4">
+      <div className="mx-auto max-w-6xl space-y-3 px-3 py-4">
         <div className="flex flex-col sm:flex-row justify-between items-center gap-6 flex-wrap">
           {/* First section: Logo and tagline */}
           <div className="space-y-2">
