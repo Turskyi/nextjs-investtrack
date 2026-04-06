@@ -1,12 +1,12 @@
-import prisma from "@/lib/prisma";
-import { cn } from "@/lib/utils";
-import { InvestmentFilterValues } from "@/lib/validation";
-import { Prisma } from "@prisma/client";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import Link from "next/link";
-import InvestmentListItem from "./InvestmentListItem";
-import { auth } from "@clerk/nextjs/server";
-import SuggestedInvestmentsButton from "./SuggestedInvestmentsButton";
+import prisma from '@/lib/prisma';
+import { cn } from '@/lib/utils';
+import { InvestmentFilterValues } from '@/lib/validation';
+import { Prisma } from '@prisma/client';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
+import InvestmentListItem from './InvestmentListItem';
+import { auth } from '@clerk/nextjs/server';
+import SuggestedInvestmentsButton from './SuggestedInvestmentsButton';
 
 // Inspired by the "JobResults" component from the Next.js Job Board project by CodingInFlow.
 // Source: https://github.com/codinginflow/nextjs-job-board/blob/Final-Project/src/components/JobResults.tsx
@@ -21,7 +21,7 @@ export default async function InvestmentResults({
 }: InvestmentResultsProps) {
   const { userId } = auth();
 
-  if (!userId) throw Error("userId undefined 😞");
+  if (!userId) throw Error('userId undefined 😞');
 
   const { q, type, currency, stockExchange, isPurchased } = filterValues;
 
@@ -29,18 +29,18 @@ export default async function InvestmentResults({
   const skip = (page - 1) * investmentsPerPage;
 
   const searchString = q
-    ?.split(" ")
+    ?.split(' ')
     .filter((word) => word.length > 0)
-    .join(" & ");
+    .join(' & ');
 
   const searchFilter: Prisma.InvestmentWhereInput = searchString
     ? {
         OR: [
-          { ticker: { contains: searchString, mode: "insensitive" } },
-          { companyName: { contains: searchString, mode: "insensitive" } },
-          { type: { contains: searchString, mode: "insensitive" } },
-          { stockExchange: { contains: searchString, mode: "insensitive" } },
-          { currency: { contains: searchString, mode: "insensitive" } },
+          { ticker: { contains: searchString, mode: 'insensitive' } },
+          { companyName: { contains: searchString, mode: 'insensitive' } },
+          { type: { contains: searchString, mode: 'insensitive' } },
+          { stockExchange: { contains: searchString, mode: 'insensitive' } },
+          { currency: { contains: searchString, mode: 'insensitive' } },
         ],
       }
     : {};
@@ -59,7 +59,7 @@ export default async function InvestmentResults({
 
   const investmentsPromise = prisma.investment.findMany({
     where,
-    orderBy: { createdAt: "desc" },
+    orderBy: { createdAt: 'desc' },
     take: investmentsPerPage,
     skip,
   });
@@ -131,8 +131,8 @@ function Pagination({
       <Link
         href={generatePageLink(currentPage - 1)}
         className={cn(
-          "flex items-center gap-2 font-semibold",
-          currentPage <= 1 && "invisible",
+          'flex items-center gap-2 font-semibold',
+          currentPage <= 1 && 'invisible',
         )}
       >
         <ArrowLeft size={16} />
@@ -144,8 +144,8 @@ function Pagination({
       <Link
         href={generatePageLink(currentPage + 1)}
         className={cn(
-          "flex items-center gap-2 font-semibold",
-          currentPage >= totalPages && "invisible",
+          'flex items-center gap-2 font-semibold',
+          currentPage >= totalPages && 'invisible',
         )}
       >
         Next page
