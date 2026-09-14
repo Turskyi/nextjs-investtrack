@@ -18,6 +18,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  console.log('Node version:', process.version);
   return (
     <ClerkProvider>
       <html lang="en">
