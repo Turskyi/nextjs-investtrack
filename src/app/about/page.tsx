@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { INSTAGRAM } from '../../../constants';
+import { DOMAIN, INSTAGRAM } from '../../../constants';
 
 const calculateAge = (birthDate: string): number => {
   const today = new Date();
@@ -85,7 +85,7 @@ export default function AboutUs() {
             You can create a free account by visiting{' '}
             <Link
               className="text-accent hover:underline"
-              href="https://invest.turskyi.com/sign-up"
+              href={`${DOMAIN}/sign-up`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -94,7 +94,7 @@ export default function AboutUs() {
             , or log in to your existing account via{' '}
             <Link
               className="text-accent hover:underline"
-              href="https://invest.turskyi.com/sign-in"
+              href={`${DOMAIN}/sign-in`}
               target="_blank"
               rel="noopener noreferrer"
             >
