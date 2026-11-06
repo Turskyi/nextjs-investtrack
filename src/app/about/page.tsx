@@ -33,9 +33,9 @@ export default function AboutUs() {
 
       <main className="container mx-auto">
         <p className="mb-4 text-lg">
-          Discover how InvestTrack can help you take control of your
+          Discover how InvestTracks can help you take control of your
           investments. Whether you&apos;re just starting out or looking for a
-          simple tool to track your portfolio, InvestTrack is completely free
+          simple tool to track your portfolio, InvestTracks is completely free
           and easy to use on both web and mobile.
         </p>
         <h1 className="mb-6 text-4xl font-bold">About Us</h1>

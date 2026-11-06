@@ -1,11 +1,11 @@
 [![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct-single.svg)](https://stand-with-ukraine.pp.ua)
 <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/Turskyi/nextjs-investtrack">
 
-# InvestTrack - Web
+# InvestTracks - Web
 
-This repository contains the Next.js implementation of **InvestTrack**, an
+This repository contains the Next.js implementation of **InvestTracks**, an
 investment tracking platform. The app serves as both a web interface for users
-and a backend API for a mobile application. InvestTrack helps users manage and
+and a backend API for a mobile application. InvestTracks helps users manage and
 track their investments across various stocks and provides essential metrics
 such as gains, losses, and current market prices.
 
@@ -61,7 +61,7 @@ You need to set up a PostgreSQL database for the app. Create an `.env` file in
 the root directory and add your database URL:
 
 ```bash
-POSTGRES_URL="postgresql://user:password@localhost:5432/investtrack"
+POSTGRES_URL="postgresql://user:password@localhost:5432/investtracks"
 ```
 
 4. **Run Database Migrations**:

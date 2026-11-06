@@ -16,7 +16,7 @@ export default function ContactUs() {
       <main className="container mx-auto">
         <h1 className="mb-6 text-4xl font-bold">Contact Us</h1>
         <p className="mb-4 text-md text-muted-foreground">
-          Need help with InvestTrack? You can report bugs, request features, or ask for help using the following channels:
+          Need help with InvestTracks? You can report bugs, request features, or ask for help using the following channels:
         </p>
         <section className="mb-6">
           <p className="mb-4 text-lg">

@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="flex flex-col sm:flex-row justify-between items-center gap-6 flex-wrap">
           {/* First section: Logo and tagline */}
           <div className="space-y-2">
-            <h3 className="text-xl font-semibold">InvestTrack</h3>
+            <h3 className="text-xl font-semibold">InvestTracks</h3>
             <p className="text-sm text-muted-foreground">
               Empowering you to grow your investments
             </p>
@@ -61,7 +61,7 @@ export default function Footer() {
 
         {/* Footer bottom section: copyright */}
         <div className="text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} InvestTrack, Inc. All rights reserved.
+          © {new Date().getFullYear()} InvestTracks, Inc. All rights reserved.
         </div>
       </div>
     </footer>

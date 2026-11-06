@@ -1,4 +1,4 @@
-export const APP_NAME = "InvestTrack";
+export const APP_NAME = "InvestTracks";
 export const DEVELOPER_DOMAIN = "turskyi.com";
 export const DOMAIN = "https://invest.turskyi.com";
 export const HOME = "https://investtracks.com";
