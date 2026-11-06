@@ -1,45 +1,41 @@
-import { Investment } from "@prisma/client";
-import { NextRequest, NextResponse } from "next/server";
+import prisma from '@/lib/prisma';
+import { auth } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
 
 const {
   placeholderInvestments,
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-} = require("../../../../scripts/placeholder-data");
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { PrismaClient } = require("@prisma/client");
+} = require('../../../../scripts/placeholder-data');
+export async function POST() {
+  const { userId } = auth();
 
-const prisma = new PrismaClient();
-
-export async function POST(req: NextRequest) {
-  const { userId } = await req.json();
+  if (!userId) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
 
   try {
-    await Promise.all(
-      placeholderInvestments.map(async (investment: Investment) => {
-        const existingInvestment = await prisma.investment.findFirst({
-          where: {
-            userId: userId,
-            ticker: investment.ticker,
-          },
-        });
+    const result = await prisma.investment.createMany({
+      data: placeholderInvestments.map(
+        (investment: (typeof placeholderInvestments)[number]) => ({
+          ...investment,
+          // Slugs are globally unique in the schema, so a fixed seed slug cannot
+          // be shared by more than one user's wishlist.
+          slug: `${investment.slug}-${userId}`,
+          userId,
+        }),
+      ),
+      // Makes repeated clicks (and simultaneous requests) safe.
+      skipDuplicates: true,
+    });
 
-        if (!existingInvestment) {
-          await prisma.investment.create({
-            data: {
-              ...investment,
-              userId: userId,
-            },
-          });
-        }
-      }),
-    );
     return NextResponse.json({
-      message: "Investments seeded successfully 💋",
+      message: 'Investments seeded successfully 💋',
+      created: result.count,
     });
   } catch (error) {
-    console.error("Error seeding investments 🤷:", error);
+    console.error('Error seeding investments 🤷:', error);
     return NextResponse.json(
-      { error: "Error seeding investments 😢" },
+      { error: 'Error seeding investments 😢' },
       { status: 500 },
     );
   }
