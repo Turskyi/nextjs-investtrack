@@ -4,6 +4,9 @@ import H1 from "@/components/ui/h1";
 import { InvestmentFilterValues } from "@/lib/validation";
 import { Metadata } from "next";
 import { APP_NAME } from "../../../constants";
+import prisma from "@/lib/prisma";
+import { auth } from "@clerk/nextjs/server";
+import RefreshButton from "./RefreshButton";
 
 // Inspired by the "app/page.tsx" component from the Next.js Job Board project by CodingInFlow.
 // Source: https://github.com/codinginflow/nextjs-job-board/blob/Final-Project/src/app/page.tsx
@@ -117,11 +120,36 @@ export default async function InvestmentsPage({
           : undefined,
   };
 
+  const { userId } = auth();
+  const latestInvestment = userId
+    ? await prisma.investment.findFirst({
+        where: { userId },
+        orderBy: { updatedAt: "desc" },
+        select: { updatedAt: true },
+      })
+    : null;
+
+  const lastUpdated = latestInvestment?.updatedAt;
+  const formattedLastUpdated = lastUpdated
+    ? new Intl.DateTimeFormat("en-US", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      }).format(new Date(lastUpdated))
+    : null;
+
   return (
     <main className="m-auto my-10 max-w-5xl flex-grow space-y-10 px-3">
       <div className="space-y-5 text-center">
         <H1>{getTitle(filterValues)}</H1>
         <p className="text-muted-foreground">{getSubtitle(filterValues)}</p>
+        <div className="flex items-center justify-center gap-3 pt-2">
+          {formattedLastUpdated && (
+            <span className="text-xs text-muted-foreground">
+              Last updated: {formattedLastUpdated}
+            </span>
+          )}
+          <RefreshButton />
+        </div>
       </div>
       <section className="flex flex-col gap-4 md:flex-row">
         <InvestmentFilterSidebar defaultValues={filterValues} />
