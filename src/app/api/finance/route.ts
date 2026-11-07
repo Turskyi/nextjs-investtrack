@@ -72,8 +72,8 @@ async function fetchYahooPrice(
         return closes[closes.length - 1];
       }
     }
-  } catch {
-    // Failed to fetch for symbol
+  } catch (err) {
+    console.warn(`fetchYahooPrice failed for symbol ${symbol}:`, err);
   }
   return null;
 }
