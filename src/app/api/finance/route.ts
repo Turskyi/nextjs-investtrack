@@ -1,4 +1,4 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse, NextRequest } from 'next/server';
 
 interface ChartResponse {
   chart?: {
@@ -38,11 +38,12 @@ async function fetchYahooPrice(
 
   try {
     const res = await fetch(url, {
+      next: { revalidate: 300 }, // Cache response for 5 minutes on Vercel Hobby plan
       headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-        "Accept": "application/json",
-        "Accept-Language": "en-US,en;q=0.5",
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        Accept: 'application/json',
+        'Accept-Language': 'en-US,en;q=0.5',
       },
     });
 
@@ -80,12 +81,12 @@ async function fetchYahooPrice(
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const ticker = searchParams.get("ticker");
-  const dateString = searchParams.get("date");
+  const ticker = searchParams.get('ticker');
+  const dateString = searchParams.get('date');
 
   if (!ticker) {
     return NextResponse.json(
-      { error: "Ticker is required 😡." },
+      { error: 'Ticker is required 😡.' },
       { status: 400 },
     );
   }
@@ -94,7 +95,7 @@ export async function GET(request: NextRequest) {
     let currentPrice: number | null = null;
     const cleanTicker = ticker.trim().toUpperCase();
 
-    // Candidates to test: exact, plus common exchange suffixes (.V for TSXV, .TO for TSX, .CN, .NE, F for OTC/Frankfurt)
+    // Candidates to test in parallel: exact, plus common exchange suffixes
     const candidates = [
       cleanTicker,
       `${cleanTicker}.V`,
@@ -104,9 +105,17 @@ export async function GET(request: NextRequest) {
       `${cleanTicker}F`,
     ];
 
-    for (const candidate of candidates) {
-      currentPrice = await fetchYahooPrice(candidate, dateString);
-      if (currentPrice != null && currentPrice > 0) {
+    const results = await Promise.allSettled(
+      candidates.map((candidate) => fetchYahooPrice(candidate, dateString)),
+    );
+
+    for (const result of results) {
+      if (
+        result.status === 'fulfilled' &&
+        result.value != null &&
+        result.value > 0
+      ) {
+        currentPrice = result.value;
         break;
       }
     }
@@ -120,9 +129,9 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ currentPrice });
   } catch (error) {
-    console.error("Error fetching data for ticker:", ticker, error);
+    console.error('Error fetching data for ticker:', ticker, error);
     return NextResponse.json(
-      { error: "Failed to fetch stock price 😔." },
+      { error: 'Failed to fetch stock price 😔.' },
       { status: 500 },
     );
   }
