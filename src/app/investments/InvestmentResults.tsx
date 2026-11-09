@@ -59,7 +59,7 @@ export default async function InvestmentResults({
 
   const investmentsPromise = prisma.investment.findMany({
     where,
-    orderBy: { createdAt: 'desc' },
+    orderBy: [{ isPurchased: 'desc' }, { createdAt: 'desc' }],
     take: investmentsPerPage,
     skip,
   });

@@ -36,7 +36,10 @@ export async function GET(request: NextRequest) {
 
     const investments = await prisma.investment.findMany({
       where: { userId },
-      orderBy: { createdAt: "desc" },
+      orderBy: [
+        { isPurchased: "desc" },
+        { createdAt: "desc" },
+      ],
       take: pageSize,
       skip: (currentPage - 1) * pageSize,
     });
@@ -48,8 +51,11 @@ export async function GET(request: NextRequest) {
     });
   } else {
     const allInvestments = await prisma.investment.findMany({
-      orderBy: { createdAt: "desc" },
       where: { userId },
+      orderBy: [
+        { isPurchased: "desc" },
+        { createdAt: "desc" },
+      ],
     });
 
     return NextResponse.json({ investments: allInvestments });
